@@ -19,7 +19,6 @@ public class ComputerNode {
 		neighbors = new ArrayList<ComputerNode>();
 		this.ID = ID;
 		this.timestamp = timestamp;
-		
 	}
 	
 	/**
