@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class CommunicationsMonitor {
 
-	private List<ComputerNode> compNodes; 
+	private LinkedList<ComputerNode> compNodes; 
 	private List<Integer> nodes;
 	
     /**
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
-    	compNodes = new ArrayList<ComputerNode>();
+    	compNodes = new LinkedList<ComputerNode>();
     }
 
     /**
@@ -43,20 +43,11 @@ public class CommunicationsMonitor {
     	//add neighbor for node1 and node 2
     	node.addNeighbor(node2);
     	node2.addNeighbor(node);
+
+    	//add both nodes to the list of computer nodes
+    	compNodes.add(node);
+    	compNodes.add(node2);
     	
-    	if(!nodes.contains(node.getID())){
-    		
-    	}
-    	
-    	//add the node1 to the list of computer nodes
-    	if(!compNodes.contains(node)) {
-    	   	compNodes.add(node);
-    	}
-    	
-    	//add the nodee2 to the list of computer nodes
-    	if(!compNodes.contains(node2)) {
-    		compNodes.add(node2);
-    	}
     }
 
     /**
@@ -64,7 +55,7 @@ public class CommunicationsMonitor {
      */
     public void createGraph() {
 
-    	List<Integer> nodes = new ArrayList<>();
+    	List<Integer> visited = new ArrayList<>();
     	List<ComputerNode> sorted = this.sortList();
     	
     	ArrayList<ComputerNode>[] adjList = new ArrayList[nodes.size()];
