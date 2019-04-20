@@ -16,6 +16,7 @@ import java.util.List;
 public class CommunicationsMonitor {
 
 	private List<ComputerNode> compNodes; 
+	private List<Integer> nodes;
 	
     /**
      * Constructor with no parameters
@@ -35,22 +36,46 @@ public class CommunicationsMonitor {
      */
     public void addCommunication(int c1, int c2, int timestamp) {
     	
-    	//creating the computer node and its neighbor
+    	//creating both computer nodes
     	ComputerNode node = new ComputerNode(c1, timestamp);
-    	ComputerNode neighbor = new ComputerNode(c2, timestamp);
+    	ComputerNode node2 = new ComputerNode(c2, timestamp);
     	
-    	//add timestamp and neighbor for the node
-    	node.addNeighbor(neighbor);
+    	//add neighbor for node1 and node 2
+    	node.addNeighbor(node2);
+    	node2.addNeighbor(node);
     	
-    	//add the node to the list of computer nodes
-    	compNodes.add(node);
-
+    	if(!nodes.contains(node.getID())){
+    		
+    	}
+    	
+    	//add the node1 to the list of computer nodes
+    	if(!compNodes.contains(node)) {
+    	   	compNodes.add(node);
+    	}
+    	
+    	//add the nodee2 to the list of computer nodes
+    	if(!compNodes.contains(node2)) {
+    		compNodes.add(node2);
+    	}
     }
 
     /**
      * Constructs the data structure as specified in the Section 2. This method should run in O(n + m log m) time.
      */
     public void createGraph() {
+
+    	List<Integer> nodes = new ArrayList<>();
+    	List<ComputerNode> sorted = this.sortList();
+    	
+    	ArrayList<ComputerNode>[] adjList = new ArrayList[nodes.size()];
+    	
+    	for(int i = 0; i < sorted.size(); i++) {
+    		
+    		
+    		
+    	}
+    	
+    	
     }
 
     /**
@@ -97,7 +122,7 @@ public class CommunicationsMonitor {
         return null;
     }
     
-    public List<ComputerNode> sortList(int c) {
+    public List<ComputerNode> sortList() {
         return null;
     }
 }
