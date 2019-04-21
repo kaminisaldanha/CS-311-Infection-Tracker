@@ -32,11 +32,24 @@ public class CommunicationsMonitorTest {
     	monitor = createExample1();
     	monitor.mergeSort(monitor.getCompNodes());
     	
-    	System.out.println(monitor.getCompNodes().get(0).getTimestamp());
     	assertEquals(4, monitor.getCompNodes().get(0).getTimestamp());
-        assertEquals(8, monitor.getCompNodes().get(1).getTimestamp());
-        assertEquals(8, monitor.getCompNodes().get(2).getTimestamp());
-        assertEquals(12,monitor.getCompNodes().get(3).getTimestamp());
+    	assertEquals(4, monitor.getCompNodes().get(1).getTimestamp());
+    	assertEquals(8, monitor.getCompNodes().get(2).getTimestamp());
+    	assertEquals(8, monitor.getCompNodes().get(3).getTimestamp());
+    	assertEquals(8, monitor.getCompNodes().get(4).getTimestamp());
+        assertEquals(8, monitor.getCompNodes().get(5).getTimestamp());
+        assertEquals(12, monitor.getCompNodes().get(6).getTimestamp());
+        assertEquals(12, monitor.getCompNodes().get(7).getTimestamp());
+        
+        monitor = createExample2();
+        monitor.mergeSort(monitor.getCompNodes());
+        
+        assertEquals(8, monitor.getCompNodes().get(0).getTimestamp());
+    	assertEquals(8, monitor.getCompNodes().get(1).getTimestamp());
+    	assertEquals(12, monitor.getCompNodes().get(2).getTimestamp());
+    	assertEquals(12, monitor.getCompNodes().get(3).getTimestamp());
+    	assertEquals(14, monitor.getCompNodes().get(4).getTimestamp());
+        assertEquals(14, monitor.getCompNodes().get(5).getTimestamp());
     }
     
     //--------------------------------------------------------------------------
@@ -53,7 +66,6 @@ public class CommunicationsMonitorTest {
     	example1.addCommunication(2, 4, 8);
     	example1.addCommunication(3, 4, 8);
     	example1.addCommunication(1, 4, 12);
-    	
     	return example1;
     }
     
@@ -61,12 +73,25 @@ public class CommunicationsMonitorTest {
      * Creates and returns the CommunicationsMonitor from Example 2 in the PDF
      * @return Example 2 CommunicationsMonitor
      */
-    private CommunicationsMonitor createExampleTwo() {
+    private CommunicationsMonitor createExample2() {
         CommunicationsMonitor example2 = new CommunicationsMonitor();
         example2.addCommunication(2, 3, 8);
         example2.addCommunication(1, 4, 12);
         example2.addCommunication(1, 2, 14);
-        example2.createGraph();
         return example2;
+    }
+    
+    /**
+     * Creates and returns 
+     * @return Sorted ArrayList
+     */
+    private CommunicationsMonitor createRandomArrayList() {
+    	CommunicationsMonitor example1 = new CommunicationsMonitor();
+    	example1.addCommunication(1, 2, 4);
+    	example1.addCommunication(2, 4, 8);
+    	example1.addCommunication(3, 4, 8);
+    	example1.addCommunication(1, 4, 12);
+    	return example1;
+    	
     }
 }
