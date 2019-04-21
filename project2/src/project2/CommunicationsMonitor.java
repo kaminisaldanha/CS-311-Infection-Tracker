@@ -63,6 +63,7 @@ public class CommunicationsMonitor {
     	int cur = 0, prev = 0;
     	
     	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
+    	ArrayList<ComputerNode> duplicateNeighborsToRemove = new ArrayList<ComputerNode>();
     	this.mergeSort(this.compNodes);
     	
     	//READ-ME: have to ensure triplets added in are unique
@@ -96,6 +97,9 @@ public class CommunicationsMonitor {
         		}
         		
         		prev = compNodes.get(i).getID();
+    		} else {
+    			//case to remove element as a neighbor for any other elements
+    			duplicateNeighborsToRemove.add(compNodes.get(i));
     		}
     	} 	
     }

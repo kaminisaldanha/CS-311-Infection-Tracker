@@ -20,9 +20,10 @@ public class CommunicationsMonitorTest {
     }
     
     @Test
-    public void addCommunication() {
-    	//Write Test
-    	
+    public void testCreateGraph() {
+    	monitor = createExample1();
+    	monitor.mergeSort(monitor.getCompNodes());
+    	monitor.createGraph();
     }
     
     //Test if the ArrayList gets sorted by its Timestamp
@@ -37,13 +38,6 @@ public class CommunicationsMonitorTest {
         assertEquals(8, monitor.getCompNodes().get(2).getTimestamp());
         assertEquals(12,monitor.getCompNodes().get(3).getTimestamp());
     }
-    
-    
-    
-    
-    
-    
-    
     
     //--------------------------------------------------------------------------
     // Helper Methods
