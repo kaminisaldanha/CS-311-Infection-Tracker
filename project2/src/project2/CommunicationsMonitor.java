@@ -59,6 +59,8 @@ public class CommunicationsMonitor {
 	public void createGraph() {
 
     	int arrIndex;
+    	ComputerNode cur = null, prev = null;
+    	
     	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
     	this.mergeSort(this.compNodes);
     	
@@ -77,15 +79,20 @@ public class CommunicationsMonitor {
     	
     	for(int i = 0; i < compNodes.size(); i++) {
     		
+    		cur = compNodes.get(i);
+    		
     		//1. get all computer nodes with a specific ID 
     		//2. add them into an array list
     		//3. add that array list into the array
     		//repeat
     		
-    		if(compNodes.get(i).getID() == compNodes.get(i+1).getID()) {
+    		if(cur == prev) {
+    			
+    		} else {
     			
     		}
     		
+    		prev = compNodes.get(i);
     		
     		
     	}
