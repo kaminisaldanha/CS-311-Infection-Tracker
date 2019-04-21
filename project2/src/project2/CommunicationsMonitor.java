@@ -134,8 +134,15 @@ public class CommunicationsMonitor {
      * @return HashMap representing the mapping of an Integer and ComputerNode objects.
      */
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
-        return null;
-    }
+    	HashMap<Integer, List<ComputerNode>> computerMapping = new HashMap<Integer, List<ComputerNode>>();
+    	int j = 0, l =0;
+    	for(int i = 0; i<adjList.length; i++) {
+    		if(i == computerNodeIDs.get(l)) {
+        		computerMapping.put(j=computerNodeIDs.get(j), getComputerMapping(j));
+        		l++;
+    		}
+    	}
+        return computerMapping;    }
 
     /**
      * Returns the list of ComputerNode objects associated with computer c by performing a lookup in the mapping.
