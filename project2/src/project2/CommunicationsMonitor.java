@@ -50,7 +50,6 @@ public class CommunicationsMonitor {
     	//add both nodes to the list of computer nodes
     	compNodes.add(node);
     	compNodes.add(node2);
-    	
     }
 
     /**
@@ -61,10 +60,9 @@ public class CommunicationsMonitor {
 
     	//sort the computer nodes by timestamp
     	this.mergeSortByTimestamp(this.compNodes);	
-    	
-    	//READ-ME: have to ensure triplets added in are unique
+ 
+    	//READ-ME: try to use hashmap to solve this
     	//and fix time complexity (this is O(n*n) )
-    	
     	//finds out how many arr elements there are
     	for(ComputerNode node: compNodes) {
     		if(!computerNodeIDs.contains(node.getID())) {
@@ -75,16 +73,25 @@ public class CommunicationsMonitor {
     	//sort the computerNodeIDs by ID
     	this.mergeSortByID(this.computerNodeIDs);
     	
-    	//create the adjacency list
-    	//READ-ME: you are adding duplicates into the adjacency list 
+    	//add first computer node to adjacency list
     	this.adjList = new ArrayList[computerNodeIDs.size()];
-    	for(ComputerNode node: this.compNodes) {
-    		ArrayList<ComputerNode> list = this.adjList[node.getID()-1];
-    		if(list == null) {
-    			list = new ArrayList<ComputerNode>();
-    		} 
-    		list.add(node);
-    		this.adjList[node.getID()-1] = list;
+    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
+    	list.add(this.compNodes.get(0));
+    	this.adjList[0] = list;
+    	
+    	//READ-ME: watch out for the neighbor problem look into this
+    	//create the adjacency list
+    	for(int i = 1; i < compNodes.size(); i++) {
+    		if((compNodes.get(i).getID() == compNodes.get(i).getID())
+    				&& compNodes.get(i).getTimestamp() != compNodes.get(i-1).getTimestamp()) {
+    		} else {
+    			list = this.adjList[compNodes.get(i).getID()-1];
+        		if(list == null) {
+        			list = new ArrayList<ComputerNode>();
+        		} 
+        		list.add(compNodes.get(i));
+        		this.adjList[compNodes.get(i).getID()-1] = list;
+    		}
     	}
     } 	
     
@@ -121,10 +128,8 @@ public class CommunicationsMonitor {
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
     	HashMap<Integer, List<ComputerNode>> computerMapping = new HashMap<Integer, List<ComputerNode>>();
     	for(int i = 0; i<adjList.length; i++) {
-    		List<ComputerNode> list = getComputerMapping(i);
         	computerMapping.put(computerNodeIDs.get(i), getComputerMapping(i));	
     	}
-
         return computerMapping;    
     }
 
@@ -138,7 +143,6 @@ public class CommunicationsMonitor {
     	
     	if(c <= adjList.length) {
             return this.adjList[c];
-        	
     	}
     	
     	return null;

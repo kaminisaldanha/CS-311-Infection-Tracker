@@ -86,8 +86,8 @@ public class CommunicationsMonitorTest {
         HashMap<Integer, List<ComputerNode>> map = monitor.getComputerMapping();
 
         // Test that mapping has been updated
-        assertEquals(2,map.size());
-    }
+        assertEquals(4,map.size());
+   }
 
     @Test
     public void getComputerMapping1() {
