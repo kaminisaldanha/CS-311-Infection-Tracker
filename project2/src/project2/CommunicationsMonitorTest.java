@@ -19,29 +19,22 @@ public class CommunicationsMonitorTest {
         monitor = new CommunicationsMonitor();
     }
     
+    /*
+     * Tests if the adjacency list is created properly using example 1 computer nodes
+     */
     @Test
     public void testCreateGraph() {
-    	// Initial size should be zero
-        assertEquals(0, monitor.getCompNodes().size());
-
-        // Insert a tuple
-        monitor.addCommunication(1, 2, 3);
-        assertEquals(1, monitor.getCompNodes().size());
-
-        // Shouldn't work after createGraph() is called
-        monitor.createGraph();
-        monitor.addCommunication(5, 6, 7);
-        assertEquals(1, monitor.getCompNodes().size());
-        
-        monitor = createExample1();
+    	monitor = createExample1();
     	monitor.mergeSortByTimestamp(monitor.getCompNodes());
     	monitor.createGraph();
     	
+    	assertEquals(2, monitor.getGraph()[0].size());
+    	assertEquals(2, monitor.getGraph()[1].size());
+    	assertEquals(1, monitor.getGraph()[2].size());
+    	assertEquals(2, monitor.getGraph()[3].size());
     }
     
-    /**
-     * Test if the ArrayList gets sorted by its Timestamp
-     */
+    //Test if the ArrayList gets sorted by its Timestamp
     @Test
     public void sortArrayListbyTimestampTest() {
     	

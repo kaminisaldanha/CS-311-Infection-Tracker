@@ -76,13 +76,13 @@ public class CommunicationsMonitor {
     	this.mergeSortByID(this.computerNodeIDs);
     	
     	//create the adjacency list
+    	//READ-ME: you are adding duplicates into the adjacency list 
     	adjList = new ArrayList[computerNodeIDs.size()];
     	for(ComputerNode node: this.compNodes) {
     		ArrayList<ComputerNode> list = adjList[node.getID()-1];
     		if(list == null) {
     			list = new ArrayList<ComputerNode>();
-    		}
-    		list.add(node);
+    		} 
     		adjList[node.getID()-1] = list;
     	}
     } 	
@@ -119,14 +119,13 @@ public class CommunicationsMonitor {
      */
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
     	HashMap<Integer, List<ComputerNode>> computerMapping = new HashMap<Integer, List<ComputerNode>>();
-    	int j = 0, l =0;
     	for(int i = 0; i<adjList.length; i++) {
-    		if(i == computerNodeIDs.get(l)) {
-        		computerMapping.put(j=computerNodeIDs.get(j), getComputerMapping(j));
-        		l++;
-    		}
+        	computerMapping.put(computerNodeIDs.get(i), getComputerMapping(i));
+    		
     	}
-        return computerMapping;    }
+    	
+        return computerMapping;    
+    }
 
     /**
      * Returns the list of ComputerNode objects associated with computer c by performing a lookup in the mapping.
