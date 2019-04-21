@@ -56,7 +56,7 @@ public class CommunicationsMonitorTest {
         
         //Test that a random time stamped node list is sorted correctly
         monitor = createRandomTimeStampList();
-        monitor.mergeSort(monitor.getCompNodes());
+        monitor.mergeSortByTimestamp(monitor.getCompNodes());
         
         assertEquals(2, monitor.getCompNodes().get(0).getTimestamp());
     	assertEquals(2, monitor.getCompNodes().get(1).getTimestamp());
