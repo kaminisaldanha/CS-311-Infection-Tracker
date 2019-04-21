@@ -21,12 +21,27 @@ public class CommunicationsMonitorTest {
     
     @Test
     public void testCreateGraph() {
-    	monitor = createExample1();
+    	// Initial size should be zero
+        assertEquals(0, monitor.getCompNodes().size());
+
+        // Insert a tuple
+        monitor.addCommunication(1, 2, 3);
+        assertEquals(1, monitor.getCompNodes().size());
+
+        // Shouldn't work after createGraph() is called
+        monitor.createGraph();
+        monitor.addCommunication(5, 6, 7);
+        assertEquals(1, monitor.getCompNodes().size());
+        
+        monitor = createExample1();
     	monitor.mergeSortByTimestamp(monitor.getCompNodes());
     	monitor.createGraph();
+    	
     }
     
-    //Test if the ArrayList gets sorted by its Timestamp
+    /**
+     * Test if the ArrayList gets sorted by its Timestamp
+     */
     @Test
     public void sortArrayListbyTimestampTest() {
     	
