@@ -204,8 +204,9 @@ public class CommunicationsMonitor {
     		rightArray = mergeSort(rightArray);
     		
     		//merge the results back together
-    		merge(leftArray, rightArray, arrayList);
+    		merge(arrayList, rightArray, leftArray);
     	}
+    	
     	return arrayList;
 
     }

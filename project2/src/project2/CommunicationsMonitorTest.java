@@ -25,7 +25,6 @@ public class CommunicationsMonitorTest {
     	
     }
     
-    
     //Test if the ArrayList gets sorted by its Timestamp
     @Test
     public void sortArrayListbyTimestampTest() {
