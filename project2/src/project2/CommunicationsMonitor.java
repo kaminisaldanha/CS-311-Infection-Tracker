@@ -24,8 +24,8 @@ public class CommunicationsMonitor {
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
-    	
     	compNodes = new ArrayList<ComputerNode>();
+    	computerNodeIDs = new ArrayList<Integer>();
     }
 
     /**
