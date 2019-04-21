@@ -16,14 +16,13 @@ import java.util.List;
  */
 public class CommunicationsMonitor {
 
-	private LinkedList<ComputerNode> compNodes; 
-	private List<Integer> nodes;
+	private ArrayList<ComputerNode> compNodes; 
 	
     /**
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
-    	compNodes = new LinkedList<ComputerNode>();
+    	compNodes = new ArrayList<ComputerNode>();
     }
 
     /**
@@ -56,19 +55,7 @@ public class CommunicationsMonitor {
      */
     public void createGraph() {
 
-    	List<Integer> visited = new ArrayList<>();
-    	
-
-    	//List<ComputerNode> sorted = this.sortList();
-    	
-    	ArrayList<ComputerNode>[] adjList = new ArrayList[nodes.size()];
-    	
-//    	for(int i = 0; i < sorted.size(); i++) {
-//    		
-//    		
-//    		
-//    	}
-    	
+    	this.mergeSort(this.compNodes);
     }
 
     /**
