@@ -55,8 +55,11 @@ public class CommunicationsMonitor {
     /**
      * Constructs the data structure as specified in the Section 2. This method should run in O(n + m log m) time.
      */
-    public void createGraph() {
+    @SuppressWarnings("unchecked")
+	public void createGraph() {
 
+    	int arrIndex;
+    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
     	this.mergeSort(this.compNodes);
     	
     	//READ-ME: have to ensure triplets added in are unique
@@ -67,6 +70,24 @@ public class CommunicationsMonitor {
     		if(!arrElements.contains(node.getID())) {
     			arrElements.add(node.getID());
     		}
+    	}
+    	
+    	//READ-ME: find out if this is ok
+    	adjList = new ArrayList[arrElements.size()];
+    	
+    	for(int i = 0; i < compNodes.size(); i++) {
+    		
+    		//1. get all computer nodes with a specific ID 
+    		//2. add them into an array list
+    		//3. add that array list into the array
+    		//repeat
+    		
+    		if(compNodes.get(i).getID() == compNodes.get(i+1).getID()) {
+    			
+    		}
+    		
+    		
+    		
     	}
     	
     	
@@ -180,5 +201,9 @@ public class CommunicationsMonitor {
     	}
     	return arrayList;
 
+    }
+    
+    public ArrayList<ComputerNode> getCompNodes() {
+    	return this.compNodes;
     }
 }
