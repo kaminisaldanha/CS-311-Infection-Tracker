@@ -24,6 +24,7 @@ public class CommunicationsMonitor {
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
+    	
     	compNodes = new ArrayList<ComputerNode>();
     }
 
@@ -160,7 +161,7 @@ public class CommunicationsMonitor {
         }
         
         ArrayList<ComputerNode> restArray;
-        int restIndex;
+        int restIndex = 0;
         if(leftIndex >= leftArray.size()){
         	restArray = rightArray;
         	restIndex = rightIndex;
