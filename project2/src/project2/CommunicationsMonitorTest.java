@@ -22,7 +22,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void testCreateGraph() {
     	monitor = createExample1();
-    	monitor.mergeSort(monitor.getCompNodes());
+    	monitor.mergeSortByTimestamp(monitor.getCompNodes());
     	monitor.createGraph();
     }
     
@@ -30,7 +30,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void sortArrayListbyTimestampTest() {
     	monitor = createExample1();
-    	monitor.mergeSort(monitor.getCompNodes());
+    	monitor.mergeSortByTimestamp(monitor.getCompNodes());
     	
     	assertEquals(4, monitor.getCompNodes().get(0).getTimestamp());
     	assertEquals(4, monitor.getCompNodes().get(1).getTimestamp());
@@ -42,7 +42,7 @@ public class CommunicationsMonitorTest {
         assertEquals(12, monitor.getCompNodes().get(7).getTimestamp());
         
         monitor = createExample2();
-        monitor.mergeSort(monitor.getCompNodes());
+        monitor.mergeSortByTimestamp(monitor.getCompNodes());
         
         assertEquals(8, monitor.getCompNodes().get(0).getTimestamp());
     	assertEquals(8, monitor.getCompNodes().get(1).getTimestamp());

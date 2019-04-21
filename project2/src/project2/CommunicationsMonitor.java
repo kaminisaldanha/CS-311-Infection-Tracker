@@ -64,7 +64,7 @@ public class CommunicationsMonitor {
     	
     	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
     	ArrayList<ComputerNode> duplicateNeighborsToRemove = new ArrayList<ComputerNode>();
-    	this.mergeSort(this.compNodes);
+    	this.mergeSortByTimestamp(this.compNodes);
     	
     	//READ-ME: have to ensure triplets added in are unique
     	
@@ -76,33 +76,32 @@ public class CommunicationsMonitor {
     		}
     	}
     	
+    	this.mergeSortByID(this.computerNodeIDs);
+    	
+    	
     	//READ-ME: find out if this is ok
     	adjList = new ArrayList[computerNodeIDs.size()];
     	
     	for(int i = 0; i < compNodes.size(); i++) {
-    		if(compNodes.get(i).getTimestamp() <= compNodes.get(compNodes.size() - 1).getTimestamp()) {
-    			cur = compNodes.get(i).getID();
-        		
-        		//1. get all computer nodes with a specific ID 
-        		//2. add them into an array list
-        		//3. add that array list into the array
-        		//repeat
-        		
-        		if(cur == prev) {
-        			list.add(compNodes.get(i));
-        		} else {
-        			adjList[arrIndex] = list;
-        			list = new ArrayList<ComputerNode>();
-        			arrIndex++;
-        		}
-        		
-        		prev = compNodes.get(i).getID();
+    		cur = compNodes.get(i).getID();
+    		
+    		//1. get all computer nodes with a specific ID 
+    		//2. add them into an array list
+    		//3. add that array list into the array
+    		//repeat
+    		
+    		if(cur == prev || i == 0) {
+    			list.add(compNodes.get(i));
     		} else {
-    			//case to remove element as a neighbor for any other elements
-    			duplicateNeighborsToRemove.add(compNodes.get(i));
+    			adjList[arrIndex] = list;
+    			list = new ArrayList<ComputerNode>();
+    			arrIndex++;
     		}
-    	} 	
-    }
+    		
+    		prev = compNodes.get(i).getID();
+    	}
+    } 	
+    
 
     /**
      * Determines whether computer c2 could be infected by time y if computer c1 was infected at time x. If so, the
@@ -148,7 +147,7 @@ public class CommunicationsMonitor {
         return null;
     }
     
-    public void merge(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
+    public void mergeByTimestamp(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
     	int rightIndex = 0;
     	int leftIndex = 0;
     	int arrayListIndex = 0;
@@ -172,8 +171,7 @@ public class CommunicationsMonitor {
         }
         else{
         	restArray = leftArray;
-        	restIndex = leftIndex;
-        	
+        	restIndex = leftIndex;	
         }
         
         //Copy rest of the Arraylist (left or right) that hasn't been used
@@ -184,7 +182,42 @@ public class CommunicationsMonitor {
 
     }
     
-    public ArrayList<ComputerNode> mergeSort(ArrayList<ComputerNode> arrayList){
+    public void mergeByID(ArrayList<Integer> arrayList, ArrayList<Integer> rightArray, ArrayList<Integer> leftArray) {
+    	int rightIndex = 0;
+    	int leftIndex = 0;
+    	int arrayListIndex = 0;
+
+        while(leftIndex < leftArray.size() && rightIndex < rightArray.size()){
+        		if(leftArray.get(leftIndex) < rightArray.get(rightIndex)){
+        				arrayList.set(arrayListIndex, leftArray.get(leftIndex));
+        				leftIndex++;
+        		}else{
+        			arrayList.set(arrayListIndex, rightArray.get(rightIndex));
+        			rightIndex++;
+        		}
+        		arrayListIndex++;
+        }
+        
+        ArrayList<Integer> restArray;
+        int restIndex = 0;
+        if(leftIndex >= leftArray.size()){
+        	restArray = rightArray;
+        	restIndex = rightIndex;
+        }
+        else{
+        	restArray = leftArray;
+        	restIndex = leftIndex;	
+        }
+        
+        //Copy rest of the Arraylist (left or right) that hasn't been used
+        for(int i = restIndex; i < restArray.size(); i++){
+        	arrayList.set(arrayListIndex, restArray.get(i));
+        	arrayListIndex++;
+        }
+
+    }
+    
+    public ArrayList<ComputerNode> mergeSortByTimestamp(ArrayList<ComputerNode> arrayList){
     	
     	ArrayList<ComputerNode> leftArray = new ArrayList<ComputerNode>();
         ArrayList<ComputerNode> rightArray = new ArrayList<ComputerNode>();
@@ -192,7 +225,9 @@ public class CommunicationsMonitor {
         
     	if(arrayList.size() == 1){
     		return arrayList;	
-    	}else{
+    		
+    	} else{
+    		
     		center = arrayList.size()/2;
     		//copy the left half of the arrayList into leftArray
     		for(int i = 0; i<center; i++){
@@ -205,15 +240,47 @@ public class CommunicationsMonitor {
     		}
     		
     		//sort left and right half of the array
-    		leftArray = mergeSort(leftArray);
-    		rightArray = mergeSort(rightArray);
+    		leftArray = mergeSortByTimestamp(leftArray);
+    		rightArray = mergeSortByTimestamp(rightArray);
     		
     		//merge the results back together
-    		merge(arrayList, rightArray, leftArray);
+    		mergeByTimestamp(arrayList, rightArray, leftArray);
     	}
     	
     	return arrayList;
-
+    }
+    
+    public ArrayList<Integer> mergeSortByID(ArrayList<Integer> arrayList){
+    	
+    	ArrayList<Integer> leftArray = new ArrayList<Integer>();
+        ArrayList<Integer> rightArray = new ArrayList<Integer>();
+        int center;
+        
+    	if(arrayList.size() == 1){
+    		return arrayList;	
+    		
+    	} else{
+    		
+    		center = arrayList.size()/2;
+    		//copy the left half of the arrayList into leftArray
+    		for(int i = 0; i<center; i++){
+    			leftArray.add(arrayList.get(i));
+    		}
+    		
+    		//copy the right half of the arrayList into rightArray
+    		for(int i = center; i < arrayList.size(); i++){
+    			rightArray.add(arrayList.get(i));
+    		}
+    		
+    		//sort left and right half of the array
+    		leftArray = mergeSortByID(leftArray);
+    		rightArray = mergeSortByID(rightArray);
+    		
+    		//merge the results back together
+    		mergeByID(arrayList, rightArray, leftArray);
+    	}
+    	
+    	return arrayList;
     }
     
     public ArrayList<ComputerNode> getCompNodes() {
