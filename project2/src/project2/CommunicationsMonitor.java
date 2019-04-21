@@ -17,7 +17,7 @@ import java.util.List;
 public class CommunicationsMonitor {
 
 	private ArrayList<ComputerNode> compNodes; 
-	private ArrayList<Integer> arrElements;
+	private ArrayList<Integer> computerNodeIDs;
 	private ArrayList<ComputerNode>[] adjList;
 	
     /**
@@ -58,8 +58,8 @@ public class CommunicationsMonitor {
     @SuppressWarnings("unchecked")
 	public void createGraph() {
 
-    	int arrIndex;
-    	ComputerNode cur = null, prev = null;
+    	int arrIndex = 0;
+    	int cur = 0, prev = 0;
     	
     	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
     	this.mergeSort(this.compNodes);
@@ -69,35 +69,34 @@ public class CommunicationsMonitor {
     	//fix time complexity (this is O(n*n) )
     	//find out how many arr elements there are
     	for(ComputerNode node: compNodes) {
-    		if(!arrElements.contains(node.getID())) {
-    			arrElements.add(node.getID());
+    		if(!computerNodeIDs.contains(node.getID())) {
+    			computerNodeIDs.add(node.getID());
     		}
     	}
     	
     	//READ-ME: find out if this is ok
-    	adjList = new ArrayList[arrElements.size()];
+    	adjList = new ArrayList[computerNodeIDs.size()];
     	
     	for(int i = 0; i < compNodes.size(); i++) {
-    		
-    		cur = compNodes.get(i);
-    		
-    		//1. get all computer nodes with a specific ID 
-    		//2. add them into an array list
-    		//3. add that array list into the array
-    		//repeat
-    		
-    		if(cur == prev) {
-    			
-    		} else {
-    			
+    		if(compNodes.get(i).getTimestamp() <= compNodes.get(compNodes.size() - 1).getTimestamp()) {
+    			cur = compNodes.get(i).getID();
+        		
+        		//1. get all computer nodes with a specific ID 
+        		//2. add them into an array list
+        		//3. add that array list into the array
+        		//repeat
+        		
+        		if(cur == prev) {
+        			list.add(compNodes.get(i));
+        		} else {
+        			adjList[arrIndex] = list;
+        			list = new ArrayList<ComputerNode>();
+        			arrIndex++;
+        		}
+        		
+        		prev = compNodes.get(i).getID();
     		}
-    		
-    		prev = compNodes.get(i);
-    		
-    		
-    	}
-    	
-    	
+    	} 	
     }
 
     /**
