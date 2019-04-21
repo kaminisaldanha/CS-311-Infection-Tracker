@@ -1,6 +1,7 @@
 package project2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -56,16 +57,17 @@ public class CommunicationsMonitor {
     public void createGraph() {
 
     	List<Integer> visited = new ArrayList<>();
-    	List<ComputerNode> sorted = this.sortList();
+    	
+
+    	//List<ComputerNode> sorted = this.sortList();
     	
     	ArrayList<ComputerNode>[] adjList = new ArrayList[nodes.size()];
     	
-    	for(int i = 0; i < sorted.size(); i++) {
-    		
-    		
-    		
-    	}
-    	
+//    	for(int i = 0; i < sorted.size(); i++) {
+//    		
+//    		
+//    		
+//    	}
     	
     }
 
@@ -113,7 +115,68 @@ public class CommunicationsMonitor {
         return null;
     }
     
-    public List<ComputerNode> sortList() {
-        return null;
+    public void merge(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
+    	int rightIndex = 0;
+    	int leftIndex = 0;
+    	int arrayListIndex = 0;
+
+        while(leftIndex < leftArray.size() && rightIndex < rightArray.size()){
+        		if(leftArray.get(leftIndex).getTimestamp() < rightArray.get(rightIndex).getTimestamp()){
+        				arrayList.set(arrayListIndex, leftArray.get(leftIndex));
+        				leftIndex++;
+        		}else{
+        			arrayList.set(arrayListIndex, rightArray.get(rightIndex));
+        			rightIndex++;
+        		}
+        		arrayListIndex++;
+        }
+        
+        ArrayList<ComputerNode> restArray;
+        int restIndex;
+        if(leftIndex >= leftArray.size()){
+        	restArray = rightArray;
+        	restIndex = rightIndex;
+        }
+        else{
+        	restArray = leftArray;
+        	restIndex = leftIndex;
+        }
+        
+        //Copy rest of the Arraylist (left or right) that hasn't been used
+        for(int i = restIndex; i < restArray.size(); i++){
+        	arrayList.set(arrayListIndex, restArray.get(i));
+        	arrayListIndex++;
+        }
+
+    }
+    
+    public ArrayList<ComputerNode> mergeSort(ArrayList<ComputerNode> arrayList){
+    	ArrayList<ComputerNode> leftArray = new ArrayList<ComputerNode>();
+        ArrayList<ComputerNode> rightArray = new ArrayList<ComputerNode>();
+        int center;
+        
+    	if(arrayList.size() == 1){
+    		return arrayList;
+    	}else{
+    		center = arrayList.size()/2;
+    		//copy the left half of the arrayList into leftArray
+    		for(int i = 0; i<center; i++){
+    			leftArray.add(arrayList.get(i));
+    		}
+    		
+    		//copy the right half of the arrayList into rightArray
+    		for(int i = center; i < arrayList.size(); i++){
+    			rightArray.add(arrayList.get(i));
+    		}
+    		
+    		//sort left and right half of the array
+    		leftArray = mergeSort(leftArray);
+    		rightArray = mergeSort(rightArray);
+    		
+    		//merge the results back together
+    		merge(leftArray, rightArray, arrayList);
+    	}
+    	return arrayList;
+
     }
 }
