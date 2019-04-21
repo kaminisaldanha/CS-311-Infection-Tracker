@@ -2,6 +2,7 @@ package project2;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
@@ -20,7 +21,7 @@ public class CommunicationsMonitorTest {
     
     @Test
     public void addCommunication() {
-    	
+    	//Write Test
     	
     }
     
@@ -29,8 +30,13 @@ public class CommunicationsMonitorTest {
     @Test
     public void sortArrayListbyTimestampTest() {
     	monitor = createExample1();
+    	monitor.mergeSort(monitor.getCompNodes());
     	
-    	//monitor.mergeSort;
+    	System.out.println(monitor.getCompNodes().get(0).getTimestamp());
+    	assertEquals(4, monitor.getCompNodes().get(0).getTimestamp());
+        assertEquals(8, monitor.getCompNodes().get(1).getTimestamp());
+        assertEquals(8, monitor.getCompNodes().get(2).getTimestamp());
+        assertEquals(12,monitor.getCompNodes().get(3).getTimestamp());
     }
     
     
