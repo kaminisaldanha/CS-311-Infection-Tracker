@@ -145,10 +145,10 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
-    	
-    	if(c <= adjList.length) {
-            return this.adjList[c];
-        	
+    	if(adjList != null) {
+    		if(c <= adjList.length) {
+                return this.adjList[c];
+    		}        	
     	}
     	
     	return null;
