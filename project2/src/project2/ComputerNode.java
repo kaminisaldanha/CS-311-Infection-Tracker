@@ -14,7 +14,9 @@ public class ComputerNode {
 	private int timestamp;
 	private int ID;
 	private List<ComputerNode> neighbors;
+	private ComputerNode predeccesor;
 	
+	//READ-ME: add predeccesor part here 
 	public ComputerNode(int ID, int timestamp) {
 		neighbors = new ArrayList<ComputerNode>();
 		this.ID = ID;
@@ -58,6 +60,10 @@ public class ComputerNode {
      */
     public List<ComputerNode> getOutNeighbors() {
         return this.neighbors;
+    }
+    
+    public ComputerNode getPredeccesor() {
+    	return this.predeccesor;
     }
 
 }

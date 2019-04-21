@@ -17,6 +17,8 @@ import java.util.List;
 public class CommunicationsMonitor {
 
 	private ArrayList<ComputerNode> compNodes; 
+	private ArrayList<Integer> arrElements;
+	private ArrayList<ComputerNode>[] adjList;
 	
     /**
      * Constructor with no parameters
@@ -56,6 +58,18 @@ public class CommunicationsMonitor {
     public void createGraph() {
 
     	this.mergeSort(this.compNodes);
+    	
+    	//READ-ME: have to ensure triplets added in are unique
+    	
+    	//fix time complexity (this is O(n*n) )
+    	//find out how many arr elements there are
+    	for(ComputerNode node: compNodes) {
+    		if(!arrElements.contains(node.getID())) {
+    			arrElements.add(node.getID());
+    		}
+    	}
+    	
+    	
     }
 
     /**
@@ -138,12 +152,13 @@ public class CommunicationsMonitor {
     }
     
     public ArrayList<ComputerNode> mergeSort(ArrayList<ComputerNode> arrayList){
+    	
     	ArrayList<ComputerNode> leftArray = new ArrayList<ComputerNode>();
         ArrayList<ComputerNode> rightArray = new ArrayList<ComputerNode>();
         int center;
         
     	if(arrayList.size() == 1){
-    		return arrayList;
+    		return arrayList;	
     	}else{
     		center = arrayList.size()/2;
     		//copy the left half of the arrayList into leftArray
