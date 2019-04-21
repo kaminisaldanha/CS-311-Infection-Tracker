@@ -77,13 +77,14 @@ public class CommunicationsMonitor {
     	
     	//create the adjacency list
     	//READ-ME: you are adding duplicates into the adjacency list 
-    	adjList = new ArrayList[computerNodeIDs.size()];
+    	this.adjList = new ArrayList[computerNodeIDs.size()];
     	for(ComputerNode node: this.compNodes) {
-    		ArrayList<ComputerNode> list = adjList[node.getID()-1];
+    		ArrayList<ComputerNode> list = this.adjList[node.getID()-1];
     		if(list == null) {
     			list = new ArrayList<ComputerNode>();
     		} 
-    		adjList[node.getID()-1] = list;
+    		list.add(node);
+    		this.adjList[node.getID()-1] = list;
     	}
     } 	
     
@@ -120,10 +121,10 @@ public class CommunicationsMonitor {
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
     	HashMap<Integer, List<ComputerNode>> computerMapping = new HashMap<Integer, List<ComputerNode>>();
     	for(int i = 0; i<adjList.length; i++) {
-        	computerMapping.put(computerNodeIDs.get(i), getComputerMapping(i));
-    		
+    		List<ComputerNode> list = getComputerMapping(i);
+        	computerMapping.put(computerNodeIDs.get(i), getComputerMapping(i));	
     	}
-    	
+
         return computerMapping;    
     }
 
@@ -134,15 +135,12 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
-    	if(adjList == null)
-    	{
-    		return null;
+    	
+    	if(c <= adjList.length) {
+            return this.adjList[c];
+        	
     	}
-    	else {
-    		if(c <= adjList.length) {
-            	return this.adjList[c];
-        	}
-    	}
+    	
     	return null;
     }
     

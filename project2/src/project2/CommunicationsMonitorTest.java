@@ -3,6 +3,7 @@ package project2;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -25,7 +26,6 @@ public class CommunicationsMonitorTest {
     @Test
     public void testCreateGraph() {
     	monitor = createExample1();
-    	monitor.mergeSortByTimestamp(monitor.getCompNodes());
     	monitor.createGraph();
     	
     	assertEquals(2, monitor.getGraph()[0].size());
@@ -81,15 +81,12 @@ public class CommunicationsMonitorTest {
     
     @Test
     public void getComputerMapping() {
-        // Test that empty HashMap is initialized on object creation
-        assertEquals(0, monitor.getComputerMapping().size());
-
-        // Insert tuple and create graph
-        monitor.addCommunication(1, 2, 4);
+        monitor = createExample1();
         monitor.createGraph();
+        HashMap<Integer, List<ComputerNode>> map = monitor.getComputerMapping();
 
         // Test that mapping has been updated
-        assertEquals(2, monitor.getComputerMapping().size());
+        assertEquals(2,map.size());
     }
 
     @Test
