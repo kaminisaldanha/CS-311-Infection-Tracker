@@ -59,50 +59,34 @@ public class CommunicationsMonitor {
     @SuppressWarnings("unchecked")
 	public void createGraph() {
 
-    	int arrIndex = 0;
-    	int cur = 0, prev = 0;
-    	
-    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
-    	ArrayList<ComputerNode> duplicateNeighborsToRemove = new ArrayList<ComputerNode>();
-    	this.mergeSortByTimestamp(this.compNodes);
+    	//sort the computer nodes by timestamp
+    	this.mergeSortByTimestamp(this.compNodes);	
     	
     	//READ-ME: have to ensure triplets added in are unique
+    	//and fix time complexity (this is O(n*n) )
     	
-    	//fix time complexity (this is O(n*n) )
-    	//find out how many arr elements there are
+    	//finds out how many arr elements there are
     	for(ComputerNode node: compNodes) {
     		if(!computerNodeIDs.contains(node.getID())) {
     			computerNodeIDs.add(node.getID());
     		}
     	}
     	
+    	//sort the computerNodeIDs by ID
     	this.mergeSortByID(this.computerNodeIDs);
     	
-    	
-    	//READ-ME: find out if this is ok
+    	//create the adjacency list
     	adjList = new ArrayList[computerNodeIDs.size()];
-    	
-    	for(int i = 0; i < compNodes.size(); i++) {
-    		cur = compNodes.get(i).getID();
-    		
-    		//1. get all computer nodes with a specific ID 
-    		//2. add them into an array list
-    		//3. add that array list into the array
-    		//repeat
-    		
-    		if(cur == prev || i == 0) {
-    			list.add(compNodes.get(i));
-    		} else {
-    			adjList[arrIndex] = list;
+    	for(ComputerNode node: this.compNodes) {
+    		ArrayList<ComputerNode> list = adjList[node.getID()-1];
+    		if(list == null) {
     			list = new ArrayList<ComputerNode>();
-    			arrIndex++;
     		}
-    		
-    		prev = compNodes.get(i).getID();
+    		list.add(node);
+    		adjList[node.getID()-1] = list;
     	}
     } 	
     
-
     /**
      * Determines whether computer c2 could be infected by time y if computer c1 was infected at time x. If so, the
      * method returns an ordered list of ComputerNode objects that represents the transmission sequence. This sequence
@@ -151,7 +135,11 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
-        return null;
+    	if(c <= adjList.length) {
+        	return this.adjList[c];
+    	} else {
+    		return null;
+    	}
     }
     
     public void mergeByTimestamp(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
@@ -292,5 +280,9 @@ public class CommunicationsMonitor {
     
     public ArrayList<ComputerNode> getCompNodes() {
     	return this.compNodes;
+    }
+    
+    public ArrayList<ComputerNode>[] getGraph() {
+    	return this.adjList;
     }
 }
