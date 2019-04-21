@@ -107,6 +107,16 @@ public class CommunicationsMonitor {
      * @return List of the path in the graph (infection path) if one exists, null otherwise.
      */
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
+    	//Walk through the list for Ca until we reach the first reference to a node (Ca, x')
+    	//such that x' >= x. 
+    	for (ArrayList<ComputerNode> node : adjList){
+    		
+    	}
+    	//Run BFS or DFS on G to determine all nodes reachable from (Ca, x')
+    	
+    	//If a node (Cb. y') with y' <= y is reachable from (Ca, x'), then we declare that Cb could
+    	//have become infected by time y; otherwise, we declare tha this is impossible
+    	
         return null;
     }
 
