@@ -169,6 +169,7 @@ public class CommunicationsMonitor {
         else{
         	restArray = leftArray;
         	restIndex = leftIndex;
+        	
         }
         
         //Copy rest of the Arraylist (left or right) that hasn't been used
