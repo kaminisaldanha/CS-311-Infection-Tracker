@@ -135,11 +135,16 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
-    	if(c <= adjList.length) {
-        	return this.adjList[c];
-    	} else {
+    	if(adjList == null)
+    	{
     		return null;
     	}
+    	else {
+    		if(c <= adjList.length) {
+            	return this.adjList[c];
+        	}
+    	}
+    	return null;
     }
     
     public void mergeByTimestamp(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
