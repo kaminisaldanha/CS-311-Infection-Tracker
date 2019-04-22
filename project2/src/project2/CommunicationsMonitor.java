@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class CommunicationsMonitor {
 
-	private ArrayList<ComputerNode> compNodes; 
+	private ArrayList<Tuple> tuples; 
 	private ArrayList<Integer> computerNodeIDs;
 	private ArrayList<ComputerNode>[] adjList;
 	
@@ -24,7 +24,7 @@ public class CommunicationsMonitor {
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
-    	compNodes = new ArrayList<ComputerNode>();
+    	tuples = new ArrayList<Tuple>();
     	computerNodeIDs = new ArrayList<Integer>();
     }
 
@@ -61,7 +61,6 @@ public class CommunicationsMonitor {
     	//sort the computer nodes by timestamp
     	this.mergeSortByTimestamp(this.compNodes);	
  
-    	//READ-ME: try to use hashmap to solve this
     	//and fix time complexity (this is O(n*n) )
     	//finds out how many arr elements there are
     	for(ComputerNode node: compNodes) {
