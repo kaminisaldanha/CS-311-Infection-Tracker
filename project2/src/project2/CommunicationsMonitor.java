@@ -300,4 +300,24 @@ public class CommunicationsMonitor {
     public ArrayList<ComputerNode>[] getGraph() {
     	return this.adjList;
     }
+    
+    private List<ComputerNode> DFS(ComputerNode c1, ComputerNode c2, int x, int y) {
+		List<ComputerNode> path = new ArrayList<ComputerNode>();
+		path.add(c1);
+		path = DFSVisit(c1, c2, x, y, path);
+		if(!path.get(path.size()- 1 ).equals(c2)) {
+			return null;
+		}
+		return path;
+	}
+	
+	private List<ComputerNode> DFSVisit(ComputerNode c1, ComputerNode c2, int x, int y, List<ComputerNode> path){
+		c1.setColor(1);
+		for(int i = 0; i < c1.getOutNeighbors().size(); i++) {
+			ComputerNode temp = c1.getOutNeighbors().get(i);
+		}
+		return path;
+	}
+	
+	
 }
