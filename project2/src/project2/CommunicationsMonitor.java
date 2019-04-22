@@ -20,8 +20,8 @@ public class CommunicationsMonitor {
 	private HashMap<Integer, List<ComputerNode>> map;
 	
 	// ----- old code -----
-	private ArrayList<Integer> computerNodeIDs;
-	private ArrayList<ComputerNode>[] adjList;
+	//private ArrayList<Integer> computerNodeIDs;
+	//private ArrayList<ComputerNode>[] adjList;
 	
     /**
      * Constructor with no parameters
@@ -31,7 +31,7 @@ public class CommunicationsMonitor {
     	map = new HashMap<Integer, List<ComputerNode>>();
     	
     	//------ old code -------
-    	computerNodeIDs = new ArrayList<Integer>();
+    	//computerNodeIDs = new ArrayList<Integer>();
     }
 
     /**
@@ -46,7 +46,6 @@ public class CommunicationsMonitor {
     public void addCommunication(int c1, int c2, int timestamp) {
     	
     	tuples.add(new Tuple(c1, c2, timestamp));
-
     	
 //		------old code-------    	
 //    	//creating both computer nodes
@@ -68,31 +67,110 @@ public class CommunicationsMonitor {
     @SuppressWarnings("unchecked")
 	public void createGraph() {
 
-    	//sort the computer nodes by timestamp
-    	this.mergeSortByTimestamp(this.tuples);	
- 
+    	List<ComputerNode> list;
     	
+    	//sort the tuples by timestamp
+    	this.mergeSortByTimestamp(this.tuples);
     	
-    	//sort the computerNodeIDs by ID
-    	this.mergeSortByID(this.computerNodeIDs);
+    	//adding first tuple into map
+    	Tuple firstTuple = this.tuples.get(0);
+    	map.put(firstTuple.getC1(), new ArrayList<ComputerNode>());
+    	map.put(firstTuple.getC2(), new ArrayList<ComputerNode>());
     	
-    	//add first computer node to adjacency list
-    	this.adjList = new ArrayList[computerNodeIDs.size()];
-    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
-    	list.add(this.compNodes.get(0));
-    	this.adjList[0] = list;
-    	
-    	//READ-ME: watch out for the neighbor problem look into this
-    	//create the adjacency list
-    	for(int i = 1; i < compNodes.size(); i++) {
-    		list = this.adjList[compNodes.get(i).getID()-1];
-    		if(list == null) {
-    			list = new ArrayList<ComputerNode>();
-    		} 
-    		list.add(compNodes.get(i));
-    		this.adjList[compNodes.get(i).getID()-1] = list;
+    	//adding all tuples into map
+    	for(int i = 1; i < this.tuples.size(); i++) {
+    		
+    		Tuple curTuple = this.tuples.get(i);
+    		Tuple prevTuple = this.tuples.get(i-1);
+    		
+    		//returns 0 if there is no duplicate
+    		List<Integer> isDuplicate = isDuplicate(curTuple, prevTuple);
+    		
+    		//creates two computer nodes from the tuple
+    		ComputerNode c1 = new ComputerNode(curTuple.getC1(), curTuple.getTimestamp());
+			ComputerNode c2 = new ComputerNode(curTuple.getC2(), curTuple.getTimestamp());
+    		
+    		if(isDuplicate.size() == 1) {
+    			
+    			//if the duplicate was c1, add c2
+    			if(isDuplicate.get(0) == curTuple.getC1()) {
+    				if(map.get(c2) == null) {
+        				map.put(c2.getID(), new ArrayList<ComputerNode>());
+        			} else {
+        				list = map.get(c2);
+        				list.add(c2);
+        				map.put(c2.getID(), list);
+        			}	
+    			} else { //if the duplicate was c2, add c1
+    				if(map.get(c1) == null) {
+        				map.put(c1.getID(), new ArrayList<ComputerNode>());
+        			} else {
+        				list = map.get(c1);
+        				list.add(c1);
+        				map.put(c1.getID(), list);
+        			}
+    			}
+
+    		} else if(isDuplicate.size() == 0){ //if no duplicates found, add both
+    			
+    			if(map.get(c1) == null) {
+    				map.put(c1.getID(), new ArrayList<ComputerNode>());
+    			} else {
+    				list = map.get(c1);
+    				list.add(c1);
+    				map.put(c1.getID(), list);
+    			}
+    			
+    			if(map.get(c2) == null) {
+    				map.put(c2.getID(), new ArrayList<ComputerNode>());
+    			} else {
+    				list = map.get(c2);
+    				list.add(c2);
+    				map.put(c2.getID(), list);
+    			}	
+    		}	
     	}
-    } 	
+ 
+    	//sort the computerNodeIDs by ID
+//    	this.mergeSortByID(this.computerNodeIDs);
+//    	
+//    	//add first computer node to adjacency list
+//    	this.adjList = new ArrayList[computerNodeIDs.size()];
+//    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
+//    	list.add(this.compNodes.get(0));
+//    	this.adjList[0] = list;
+//    	
+//    	//READ-ME: watch out for the neighbor problem look into this
+//    	//create the adjacency list
+//    	for(int i = 1; i < compNodes.size(); i++) {
+//    		list = this.adjList[compNodes.get(i).getID()-1];
+//    		if(list == null) {
+//    			list = new ArrayList<ComputerNode>();
+//    		} 
+//    		list.add(compNodes.get(i));
+//    		this.adjList[compNodes.get(i).getID()-1] = list;
+//    	}
+    } 
+    
+    public List<Integer> isDuplicate(Tuple cur, Tuple prev) {
+    	
+    	List<Integer> duplicates = new ArrayList<Integer>();
+    	
+    	if(cur.getTimestamp() == prev.getTimestamp()) {	
+    		if(cur.getC1() == prev.getC1()) {
+    			duplicates.add(cur.getC1());
+    		} else if (cur.getC1() == prev.getC2()) {
+    			duplicates.add(cur.getC1());
+    		} else if(cur.getC2() == prev.getC2()) {
+    			duplicates.add(cur.getC2());
+    		} else if(cur.getC2() == prev.getC1()) {
+    			duplicates.add(cur.getC2());
+    		}
+    	} 
+    	
+    	return duplicates;
+    	
+    }
     
     /**
      * Determines whether computer c2 could be infected by time y if computer c1 was infected at time x. If so, the
