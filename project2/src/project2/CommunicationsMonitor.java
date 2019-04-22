@@ -227,6 +227,7 @@ public class CommunicationsMonitor {
 
     	if(adjList != null) {
     		if(c <= adjList.length) {
+    			
                 return this.adjList[c];
     		}        	
     	}
