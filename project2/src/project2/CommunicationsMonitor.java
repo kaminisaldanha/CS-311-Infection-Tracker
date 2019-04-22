@@ -82,16 +82,12 @@ public class CommunicationsMonitor {
     	//READ-ME: watch out for the neighbor problem look into this
     	//create the adjacency list
     	for(int i = 1; i < compNodes.size(); i++) {
-    		if((compNodes.get(i).getID() == compNodes.get(i).getID())
-    				&& compNodes.get(i).getTimestamp() != compNodes.get(i-1).getTimestamp()) {
-    		} else {
-    			list = this.adjList[compNodes.get(i).getID()-1];
-        		if(list == null) {
-        			list = new ArrayList<ComputerNode>();
-        		} 
-        		list.add(compNodes.get(i));
-        		this.adjList[compNodes.get(i).getID()-1] = list;
-    		}
+    		list = this.adjList[compNodes.get(i).getID()-1];
+    		if(list == null) {
+    			list = new ArrayList<ComputerNode>();
+    		} 
+    		list.add(compNodes.get(i));
+    		this.adjList[compNodes.get(i).getID()-1] = list;
     	}
     } 	
     
@@ -167,9 +163,10 @@ public class CommunicationsMonitor {
     	int arrayListIndex = 0;
 
         while(leftIndex < leftArray.size() && rightIndex < rightArray.size()){
+        	
         		if(leftArray.get(leftIndex).getTimestamp() < rightArray.get(rightIndex).getTimestamp()){
-        				arrayList.set(arrayListIndex, leftArray.get(leftIndex));
-        				leftIndex++;
+        			arrayList.set(arrayListIndex, leftArray.get(leftIndex));
+        			leftIndex++;
         		}else{
         			arrayList.set(arrayListIndex, rightArray.get(rightIndex));
         			rightIndex++;
