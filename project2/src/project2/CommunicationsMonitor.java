@@ -17,6 +17,9 @@ import java.util.List;
 public class CommunicationsMonitor {
 
 	private ArrayList<Tuple> tuples; 
+	private HashMap<Integer, List<ComputerNode>> map;
+	
+	// ----- old code -----
 	private ArrayList<Integer> computerNodeIDs;
 	private ArrayList<ComputerNode>[] adjList;
 	
@@ -25,6 +28,9 @@ public class CommunicationsMonitor {
      */
     public CommunicationsMonitor() {
     	tuples = new ArrayList<Tuple>();
+    	map = new HashMap<Integer, List<ComputerNode>>();
+    	
+    	//------ old code -------
     	computerNodeIDs = new ArrayList<Integer>();
     }
 
@@ -39,17 +45,21 @@ public class CommunicationsMonitor {
      */
     public void addCommunication(int c1, int c2, int timestamp) {
     	
-    	//creating both computer nodes
-    	ComputerNode node = new ComputerNode(c1, timestamp);
-    	ComputerNode node2 = new ComputerNode(c2, timestamp);
-    	
-    	//add neighbor for node1 and node 2
-    	node.addNeighbor(node2);
-    	node2.addNeighbor(node);
+    	tuples.add(new Tuple(c1, c2, timestamp));
 
-    	//add both nodes to the list of computer nodes
-    	compNodes.add(node);
-    	compNodes.add(node2);
+    	
+//		------old code-------    	
+//    	//creating both computer nodes
+//    	ComputerNode node = new ComputerNode(c1, timestamp);
+//    	ComputerNode node2 = new ComputerNode(c2, timestamp);
+//    	
+//    	//add neighbor for node1 and node 2
+//    	node.addNeighbor(node2);
+//    	node2.addNeighbor(node);
+//
+//    	//add both nodes to the list of computer nodes
+//    	compNodes.add(node);
+//    	compNodes.add(node2);
     }
 
     /**
@@ -59,15 +69,9 @@ public class CommunicationsMonitor {
 	public void createGraph() {
 
     	//sort the computer nodes by timestamp
-    	this.mergeSortByTimestamp(this.compNodes);	
+    	this.mergeSortByTimestamp(this.tuples);	
  
-    	//and fix time complexity (this is O(n*n) )
-    	//finds out how many arr elements there are
-    	for(ComputerNode node: compNodes) {
-    		if(!computerNodeIDs.contains(node.getID())) {
-    			computerNodeIDs.add(node.getID());
-    		}
-    	}
+    	
     	
     	//sort the computerNodeIDs by ID
     	this.mergeSortByID(this.computerNodeIDs);
@@ -131,11 +135,7 @@ public class CommunicationsMonitor {
      * @return HashMap representing the mapping of an Integer and ComputerNode objects.
      */
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
-    	HashMap<Integer, List<ComputerNode>> computerMapping = new HashMap<Integer, List<ComputerNode>>();
-    	for(int i = 0; i<adjList.length; i++) {
-        	computerMapping.put(computerNodeIDs.get(i), getComputerMapping(i));	
-    	}
-        return computerMapping;    
+        return this.map;    
     }
 
     /**
