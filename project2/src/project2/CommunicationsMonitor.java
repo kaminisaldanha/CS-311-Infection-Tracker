@@ -67,15 +67,18 @@ public class CommunicationsMonitor {
     @SuppressWarnings("unchecked")
 	public void createGraph() {
 
-    	List<ComputerNode> list;
+    	List<ComputerNode> list = new ArrayList<ComputerNode>();
     	
     	//sort the tuples by timestamp
     	this.mergeSortByTimestamp(this.tuples);
     	
     	//adding first tuple into map
     	Tuple firstTuple = this.tuples.get(0);
-    	map.put(firstTuple.getC1(), new ArrayList<ComputerNode>());
-    	map.put(firstTuple.getC2(), new ArrayList<ComputerNode>());
+    	list.add(new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp()));
+    	map.put(firstTuple.getC1(), list);
+    	list = new ArrayList<ComputerNode>();
+    	list.add(new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp()));
+    	map.put(firstTuple.getC2(), list);
     	
     	//adding all tuples into map
     	for(int i = 1; i < this.tuples.size(); i++) {
@@ -90,43 +93,53 @@ public class CommunicationsMonitor {
     		ComputerNode c1 = new ComputerNode(curTuple.getC1(), curTuple.getTimestamp());
 			ComputerNode c2 = new ComputerNode(curTuple.getC2(), curTuple.getTimestamp());
     		
+			//only want to add if there is 1 duplicate (if there is two we don't want to add any)
     		if(isDuplicate.size() == 1) {
     			
     			//if the duplicate was c1, add c2
     			if(isDuplicate.get(0) == curTuple.getC1()) {
-    				if(map.get(c2) == null) {
-        				map.put(c2.getID(), new ArrayList<ComputerNode>());
-        			} else {
-        				list = map.get(c2);
+    				if(this.map.get(c2.getID()) == null) {
+    					list = new ArrayList<ComputerNode>();
         				list.add(c2);
-        				map.put(c2.getID(), list);
-        			}	
-    			} else { //if the duplicate was c2, add c1
-    				if(map.get(c1) == null) {
-        				map.put(c1.getID(), new ArrayList<ComputerNode>());
+        				this.map.put(c2.getID(), list);
         			} else {
-        				list = map.get(c1);
+        				list = this.map.get(c2.getID());
+        				list.add(c2);
+        				this.map.put(c2.getID(), list);
+        			}	
+    			} else {
+    				//if the duplicate was c2, add c1
+    				if(this.map.get(c1.getID()) == null) {
+    					list = new ArrayList<ComputerNode>();
         				list.add(c1);
-        				map.put(c1.getID(), list);
+        				this.map.put(c1.getID(), list);
+        			} else {
+        				list = this.map.get(c1.getID());
+        				list.add(c1);
+        				this.map.put(c1.getID(), list);
         			}
     			}
 
-    		} else if(isDuplicate.size() == 0){ //if no duplicates found, add both
+    		} else if(isDuplicate.size() == 0){ //if no duplicates found
     			
-    			if(map.get(c1) == null) {
-    				map.put(c1.getID(), new ArrayList<ComputerNode>());
-    			} else {
-    				list = map.get(c1);
+    			if(this.map.get(c1.getID()) == null) {
+    				list = new ArrayList<ComputerNode>();
     				list.add(c1);
     				map.put(c1.getID(), list);
+    			} else {
+    				list = this.map.get(c1.getID());
+    				list.add(c1);
+    				this.map.put(c1.getID(), list);
     			}
     			
-    			if(map.get(c2) == null) {
-    				map.put(c2.getID(), new ArrayList<ComputerNode>());
-    			} else {
-    				list = map.get(c2);
+    			if(this.map.get(c2.getID()) == null) {
+    				list = new ArrayList<ComputerNode>();
     				list.add(c2);
     				map.put(c2.getID(), list);
+    			} else {
+    				list = this.map.get(c2.getID());
+    				list.add(c2);
+    				this.map.put(c2.getID(), list);
     			}	
     		}	
     	}
