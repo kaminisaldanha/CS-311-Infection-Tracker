@@ -152,6 +152,12 @@ public class CommunicationsMonitor {
 //    	}
     } 
     
+    /**
+     * Returns any duplicates found in cur compared to prev as a list of integers
+     * @param cur
+     * @param prev
+     * @return
+     */
     public List<Integer> isDuplicate(Tuple cur, Tuple prev) {
     	
     	List<Integer> duplicates = new ArrayList<Integer>();
@@ -193,9 +199,9 @@ public class CommunicationsMonitor {
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
     	//Walk through the list for Ca until we reach the first reference to a node (Ca, x')
     	//such that x' >= x. 
-    	for (ArrayList<ComputerNode> node : adjList){
-    		
-    	}
+//    	for (ArrayList<ComputerNode> node : adjList){
+//    		
+//    	}
     	//Run BFS or DFS on G to determine all nodes reachable from (Ca, x')
     	
     	//If a node (Cb. y') with y' <= y is reachable from (Ca, x'), then we declare that Cb could
@@ -213,7 +219,7 @@ public class CommunicationsMonitor {
      * @return HashMap representing the mapping of an Integer and ComputerNode objects.
      */
     public HashMap<Integer, List<ComputerNode>> getComputerMapping() {
-        return this.map;    
+        return this.map;   
     }
 
     /**
@@ -223,15 +229,7 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
-    	
-
-    	if(adjList != null) {
-    		if(c <= adjList.length) {
-                return this.adjList[c];
-    		}        	
-    	}
-    	
-    	return null;
+    	return this.map.get(c);
     }
     
     public void mergeByTimestamp(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
