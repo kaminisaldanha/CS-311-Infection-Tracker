@@ -15,7 +15,6 @@ public class ComputerNode {
 	private int ID;
 	private List<ComputerNode> neighbors;
 	private ComputerNode predeccesor;
-	private int color; // 0 for white, 1 for grey, 2 for black
 	
 	//READ-ME: add predeccesor part here 
 	public ComputerNode(int ID, int timestamp) {
@@ -66,12 +65,5 @@ public class ComputerNode {
     public ComputerNode getPredeccesor() {
     	return this.predeccesor;
     }
-    
-    public void setColor(int color) {
-		this.color = color;
-	}
-	public int getColor() {
-		return color;
-	}
 
 }

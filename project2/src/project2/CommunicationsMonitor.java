@@ -119,7 +119,7 @@ public class CommunicationsMonitor {
     		
     	}
     	//Run BFS or DFS on G to determine all nodes reachable from (Ca, x')
-    	
+    	//DFS(c1);
     	//If a node (Cb. y') with y' <= y is reachable from (Ca, x'), then we declare that Cb could
     	//have become infected by time y; otherwise, we declare tha this is impossible
     	
@@ -156,7 +156,7 @@ public class CommunicationsMonitor {
     	return null;
     }
     
-    public void mergeByTimestamp(ArrayList<ComputerNode> arrayList, ArrayList<ComputerNode> rightArray, ArrayList<ComputerNode> leftArray) {
+    public void mergeByTimestamp(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
     	int rightIndex = 0;
     	int leftIndex = 0;
     	int arrayListIndex = 0;
@@ -173,7 +173,7 @@ public class CommunicationsMonitor {
         		arrayListIndex++;
         }
         
-        ArrayList<ComputerNode> restArray;
+        ArrayList<Tuple> restArray;
         int restIndex = 0;
         if(leftIndex >= leftArray.size()){
         	restArray = rightArray;
@@ -192,45 +192,10 @@ public class CommunicationsMonitor {
 
     }
     
-    public void mergeByID(ArrayList<Integer> arrayList, ArrayList<Integer> rightArray, ArrayList<Integer> leftArray) {
-    	int rightIndex = 0;
-    	int leftIndex = 0;
-    	int arrayListIndex = 0;
-
-        while(leftIndex < leftArray.size() && rightIndex < rightArray.size()){
-        		if(leftArray.get(leftIndex) < rightArray.get(rightIndex)){
-        				arrayList.set(arrayListIndex, leftArray.get(leftIndex));
-        				leftIndex++;
-        		}else{
-        			arrayList.set(arrayListIndex, rightArray.get(rightIndex));
-        			rightIndex++;
-        		}
-        		arrayListIndex++;
-        }
-        
-        ArrayList<Integer> restArray;
-        int restIndex = 0;
-        if(leftIndex >= leftArray.size()){
-        	restArray = rightArray;
-        	restIndex = rightIndex;
-        }
-        else{
-        	restArray = leftArray;
-        	restIndex = leftIndex;	
-        }
-        
-        //Copy rest of the Arraylist (left or right) that hasn't been used
-        for(int i = restIndex; i < restArray.size(); i++){
-        	arrayList.set(arrayListIndex, restArray.get(i));
-        	arrayListIndex++;
-        }
-
-    }
-    
-    public ArrayList<ComputerNode> mergeSortByTimestamp(ArrayList<ComputerNode> arrayList){
+    public ArrayList<Tuple> mergeSortByTimestamp(ArrayList<Tuple> arrayList){
     	
-    	ArrayList<ComputerNode> leftArray = new ArrayList<ComputerNode>();
-        ArrayList<ComputerNode> rightArray = new ArrayList<ComputerNode>();
+    	ArrayList<Tuple> leftArray = new ArrayList<Tuple>();
+        ArrayList<Tuple> rightArray = new ArrayList<Tuple>();
         int center;
         
     	if(arrayList.size() == 1){
@@ -259,42 +224,10 @@ public class CommunicationsMonitor {
     	
     	return arrayList;
     }
+ 
     
-    public ArrayList<Integer> mergeSortByID(ArrayList<Integer> arrayList){
-    	
-    	ArrayList<Integer> leftArray = new ArrayList<Integer>();
-        ArrayList<Integer> rightArray = new ArrayList<Integer>();
-        int center;
-        
-    	if(arrayList.size() == 1){
-    		return arrayList;	
-    		
-    	} else{
-    		
-    		center = arrayList.size()/2;
-    		//copy the left half of the arrayList into leftArray
-    		for(int i = 0; i<center; i++){
-    			leftArray.add(arrayList.get(i));
-    		}
-    		
-    		//copy the right half of the arrayList into rightArray
-    		for(int i = center; i < arrayList.size(); i++){
-    			rightArray.add(arrayList.get(i));
-    		}
-    		
-    		//sort left and right half of the array
-    		leftArray = mergeSortByID(leftArray);
-    		rightArray = mergeSortByID(rightArray);
-    		
-    		//merge the results back together
-    		mergeByID(arrayList, rightArray, leftArray);
-    	}
-    	
-    	return arrayList;
-    }
-    
-    public ArrayList<ComputerNode> getCompNodes() {
-    	return this.compNodes;
+    public ArrayList<Tuple> getTuples() {
+    	return this.tuples;
     }
     
     public ArrayList<ComputerNode>[] getGraph() {
@@ -309,10 +242,13 @@ public class CommunicationsMonitor {
 			return null;
 		}
 		return path;
+		//DFS(Visit)
+		
+		
 	}
 	
 	private List<ComputerNode> DFSVisit(ComputerNode c1, ComputerNode c2, int x, int y, List<ComputerNode> path){
-		c1.setColor(1);
+		//c1.setColor(1);
 		for(int i = 0; i < c1.getOutNeighbors().size(); i++) {
 			ComputerNode temp = c1.getOutNeighbors().get(i);
 		}
