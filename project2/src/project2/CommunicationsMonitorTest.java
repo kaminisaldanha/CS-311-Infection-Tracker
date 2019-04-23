@@ -50,8 +50,9 @@ public class CommunicationsMonitorTest {
     	monitor.createGraph();
     	
     	assertEquals(1, monitor.getComputerMapping(1).size());
-    	assertEquals(2, monitor.getComputerMapping(2).size());
+    	assertEquals(3, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
+    	assertEquals(1, monitor.getComputerMapping(4).size());
     }
     
 //    //Test if the ArrayList gets sorted by its Timestamp
@@ -152,8 +153,8 @@ public class CommunicationsMonitorTest {
     private CommunicationsMonitor createExample3() {
     	CommunicationsMonitor example3 = new CommunicationsMonitor();
         example3.addCommunication(2, 3, 8);
-        example3.addCommunication(2, 3, 8);
         example3.addCommunication(1, 2, 14);
+        example3.addCommunication(2, 4, 8);
         return example3;
     }
     

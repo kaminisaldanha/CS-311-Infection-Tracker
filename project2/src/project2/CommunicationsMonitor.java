@@ -37,14 +37,12 @@ public class CommunicationsMonitor {
      * @param timestamp Time the communication took place.
      */
     public void addCommunication(int c1, int c2, int timestamp) {
-    	
     	tuples.add(new Tuple(c1, c2, timestamp));
     }
 
     /**
      * Constructs the data structure as specified in the Section 2. This method should run in O(n + m log m) time.
      */
-    @SuppressWarnings("unchecked")
 	public void createGraph() {
 
     	//sort the tuples by timestamp
@@ -67,7 +65,6 @@ public class CommunicationsMonitor {
     		ComputerNode c1 = new ComputerNode(curTuple.getC1(), curTuple.getTimestamp());
 			ComputerNode c2 = new ComputerNode(curTuple.getC2(), curTuple.getTimestamp());
     		
-    		//returns 0 if there is no duplicate
     		int isDuplicate = isDuplicate(curTuple, prevTuple);
 	
 			//if there are no duplicates
@@ -94,9 +91,7 @@ public class CommunicationsMonitor {
      * @param c
      */
     public void addNode(ComputerNode c) {
-    	
     	List<ComputerNode> list;
-    	
     	if(this.map.get(c.getID()) == null) {
 			list = new ArrayList<ComputerNode>();
 			list.add(c);
