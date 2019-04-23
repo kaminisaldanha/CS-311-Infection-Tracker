@@ -3,6 +3,7 @@ package project2;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -263,20 +264,27 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private List<ComputerNode> DFS(ComputerNode c1, ComputerNode c2) {
+    private List<ComputerNode> DFS(ComputerNode start, ComputerNode end) {
 		List<ComputerNode> path = new ArrayList<ComputerNode>();
-		path.add(c1);
-		path = DFSVisit(c1, c2, x, y, path);
-		if(!path.get(path.size()- 1 ).equals(c2)) {
-			return null;
+		path.add(start);
+		
+		Iterator<ComputerNode> iterator = start.getOutNeighbors().listIterator();
+		
+		while(iterator.hasNext()) {
+			ComputerNode node = iterator.next();
+			if(node.getColor() == 0) {
+				ComputerNode temp = DFSUtil(start, end);
+				if(temp != null) {
+					return temp;
+				}
+			}
+			
 		}
-		return path;
-		//DFS(Visit)
 		
-		
+		return null;
 	}
 	
-	private List<ComputerNode> DFSVisit(ComputerNode c1, ComputerNode c2, int x, int y, List<ComputerNode> path){
+	private List<ComputerNode> DFSVisit(ComputerNode c1, ComputerNode c2){
 		//c1.setColor(1);
 		for(int i = 0; i < c1.getOutNeighbors().size(); i++) {
 			ComputerNode temp = c1.getOutNeighbors().get(i);

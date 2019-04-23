@@ -15,12 +15,21 @@ public class ComputerNode {
 	private int ID;
 	private List<ComputerNode> neighbors;
 	private ComputerNode predeccesor;
+	private int color;
 	
 	//READ-ME: add predeccesor part here 
 	public ComputerNode(int ID, int timestamp) {
 		neighbors = new ArrayList<ComputerNode>();
 		this.ID = ID;
 		this.timestamp = timestamp;
+	}
+	
+	public int getColor() {
+		return this.color;
+	}
+	
+	public void setColor(int color) {
+		this.color = color;
 	}
 	
 	/**
@@ -64,6 +73,10 @@ public class ComputerNode {
     
     public ComputerNode getPredeccesor() {
     	return this.predeccesor;
+    }
+    
+    public void setPredeccesor(ComputerNode node) {
+    	this.predeccesor = node;
     }
 
 }
