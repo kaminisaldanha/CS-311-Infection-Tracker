@@ -55,51 +55,45 @@ public class CommunicationsMonitorTest {
     	assertEquals(1, monitor.getComputerMapping(4).size());
     }
     
-//    //Test if the ArrayList gets sorted by its Timestamp
-//    @Test
-//    public void sortArrayListbyTimestampTest() {
-//    	
-//    	//Test that Example 1 is sorted correctly
-//    	monitor = createExample1();
-//    	monitor.mergeSortByTimestamp(monitor.getCompNodes());
-//    	
-//    	assertEquals(4, monitor.getCompNodes().get(0).getTimestamp());
-//    	assertEquals(4, monitor.getCompNodes().get(1).getTimestamp());
-//    	assertEquals(8, monitor.getCompNodes().get(2).getTimestamp());
-//    	assertEquals(8, monitor.getCompNodes().get(3).getTimestamp());
-//    	assertEquals(8, monitor.getCompNodes().get(4).getTimestamp());
-//        assertEquals(8, monitor.getCompNodes().get(5).getTimestamp());
-//        assertEquals(12, monitor.getCompNodes().get(6).getTimestamp());
-//        assertEquals(12, monitor.getCompNodes().get(7).getTimestamp());
-//        
-//        //Test that Example 2 is sorted correctly
-//        monitor = createExample2();
-//        monitor.mergeSortByTimestamp(monitor.getCompNodes());
-//        
-//        assertEquals(8, monitor.getCompNodes().get(0).getTimestamp());
-//    	assertEquals(8, monitor.getCompNodes().get(1).getTimestamp());
-//    	assertEquals(12, monitor.getCompNodes().get(2).getTimestamp());
-//    	assertEquals(12, monitor.getCompNodes().get(3).getTimestamp());
-//    	assertEquals(14, monitor.getCompNodes().get(4).getTimestamp());
-//        assertEquals(14, monitor.getCompNodes().get(5).getTimestamp());
-//        
-//        //Test that a random time stamped node list is sorted correctly
-//        monitor = createRandomTimeStampList();
-//        monitor.mergeSortByTimestamp(monitor.getCompNodes());
-//        
-//        assertEquals(2, monitor.getCompNodes().get(0).getTimestamp());
-//    	assertEquals(2, monitor.getCompNodes().get(1).getTimestamp());
-//    	assertEquals(4, monitor.getCompNodes().get(2).getTimestamp());
-//    	assertEquals(4, monitor.getCompNodes().get(3).getTimestamp());
-//    	assertEquals(5, monitor.getCompNodes().get(4).getTimestamp());
-//        assertEquals(5, monitor.getCompNodes().get(5).getTimestamp());
-//        assertEquals(12, monitor.getCompNodes().get(6).getTimestamp());
-//        assertEquals(12, monitor.getCompNodes().get(7).getTimestamp());
-//        assertEquals(14, monitor.getCompNodes().get(8).getTimestamp());
-//        assertEquals(14, monitor.getCompNodes().get(9).getTimestamp());
-//      
-//    }
-//    
+    //Test if the ArrayList gets sorted by its Timestamp
+    @Test
+    public void sortTest1() {
+    	
+    	//Test that Example 1 is sorted correctly
+    	monitor = createExample1();
+    	monitor.mergeSort(monitor.getTuples());
+    	
+    	assertEquals(4, monitor.getTuples().get(0).getTimestamp());
+    	assertEquals(8, monitor.getTuples().get(1).getTimestamp());
+    	assertEquals(8, monitor.getTuples().get(2).getTimestamp());
+    	assertEquals(12, monitor.getTuples().get(3).getTimestamp());
+    }
+    
+    @Test
+    public void sortTest2() {
+        //Test that Example 2 is sorted correctly
+        monitor = createExample2();
+        monitor.mergeSort((monitor.getTuples()));
+        
+        assertEquals(8, monitor.getTuples().get(0).getTimestamp());
+    	assertEquals(12, monitor.getTuples().get(1).getTimestamp());
+    	assertEquals(14, monitor.getTuples().get(2).getTimestamp());
+ 
+    }
+    
+    @Test
+    public void sortTest3() {
+        //Test that a random time stamped node list is sorted correctly
+        monitor = createRandomTimeStampList();
+        monitor.mergeSort((monitor.getTuples()));
+        
+        assertEquals(2, monitor.getTuples().get(0).getTimestamp());
+    	assertEquals(4, monitor.getTuples().get(1).getTimestamp());
+    	assertEquals(5, monitor.getTuples().get(2).getTimestamp());
+    	assertEquals(12, monitor.getTuples().get(3).getTimestamp());
+    	assertEquals(14, monitor.getTuples().get(4).getTimestamp());
+    }
+    
     @Test
     public void getComputerMappin1() {
         monitor = createExample1();
