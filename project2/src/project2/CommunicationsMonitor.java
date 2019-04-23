@@ -111,8 +111,6 @@ public class CommunicationsMonitor {
      * @return a list of all duplicate computer node ID's
      */
     public int isDuplicate(Tuple cur, Tuple prev) {
-    	
-
     	if(cur.getTimestamp() == prev.getTimestamp()) {	
     		if(cur.getC1() == prev.getC1()) {
     			return cur.getC1();
@@ -147,24 +145,26 @@ public class CommunicationsMonitor {
      * @return List of the path in the graph (infection path) if one exists, null otherwise.
      */
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
-    	//Walk through the list for Ca until we reach the first reference to a node (Ca, x')
-    	//such that x' >= x. 
-    	List<ComputerNode> path = new ArrayList<ComputerNode>();
-		List<ComputerNode> list = map.get(c1);
-		for(ComputerNode cn : list){
-			if(cn.getTimestamp() == x){
-				path.add(cn);
-				DFS(cn);
-			}
-		}
-    	//Run BFS or DFS on G to determine all nodes reachable from (Ca, x')
-		
-		
-		
-    	//If a node (Cb. y') with y' <= y is reachable from (Ca, x'), then we declare that Cb could
-    	//have become infected by time y; otherwise, we declare tha this is impossible
-    	
-        return null;
+        //Walk through the list for Ca until we reach the first reference to a node (Ca, x')
+        //such that x' >= x. 
+    	ComputerNode start, end;
+        List<ComputerNode> list = map.get(c1);
+        
+        for(ComputerNode cn : list){
+            if(cn.getTimestamp() == x){
+                start = cn;
+            }
+        }
+        list = map.get(c2);
+        for(ComputerNode cn: list) {
+        	if(cn.getTimestamp() == y) {
+        		end = cn;
+        	}
+        }
+        
+        
+        DFS(node);
+        
     }
 
     /**
@@ -263,14 +263,16 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private List<ComputerNode> DFS(ComputerNode cn) {
-//		List<ComputerNode> path = new ArrayList<ComputerNode>();
-//		path = DFSVisit(c1, c2, x, y, path);
-//		if(!path.get(path.size()- 1 ).equals(c2)) {
-//			return null;
-//		}
-//		return path;
-    	
+    private List<ComputerNode> DFS(ComputerNode c1, ComputerNode c2, int x, int y) {
+		List<ComputerNode> path = new ArrayList<ComputerNode>();
+		path.add(c1);
+		path = DFSVisit(c1, c2, x, y, path);
+		if(!path.get(path.size()- 1 ).equals(c2)) {
+			return null;
+		}
+		return path;
+		//DFS(Visit)
+		
 		
 	}
 	
