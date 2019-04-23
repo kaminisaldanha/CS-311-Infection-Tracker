@@ -19,19 +19,12 @@ public class CommunicationsMonitor {
 	private ArrayList<Tuple> tuples; 
 	private HashMap<Integer, List<ComputerNode>> map;
 	
-	// ----- old code -----
-	//private ArrayList<Integer> computerNodeIDs;
-	//private ArrayList<ComputerNode>[] adjList;
-	
     /**
      * Constructor with no parameters
      */
     public CommunicationsMonitor() {
     	tuples = new ArrayList<Tuple>();
     	map = new HashMap<Integer, List<ComputerNode>>();
-    	
-    	//------ old code -------
-    	//computerNodeIDs = new ArrayList<Integer>();
     }
 
     /**
@@ -46,19 +39,6 @@ public class CommunicationsMonitor {
     public void addCommunication(int c1, int c2, int timestamp) {
     	
     	tuples.add(new Tuple(c1, c2, timestamp));
-    	
-//		------old code-------    	
-//    	//creating both computer nodes
-//    	ComputerNode node = new ComputerNode(c1, timestamp);
-//    	ComputerNode node2 = new ComputerNode(c2, timestamp);
-//    	
-//    	//add neighbor for node1 and node 2
-//    	node.addNeighbor(node2);
-//    	node2.addNeighbor(node);
-//
-//    	//add both nodes to the list of computer nodes
-//    	compNodes.add(node);
-//    	compNodes.add(node2);
     }
 
     /**
@@ -67,13 +47,12 @@ public class CommunicationsMonitor {
     @SuppressWarnings("unchecked")
 	public void createGraph() {
 
-    	List<ComputerNode> list = new ArrayList<ComputerNode>();
-    	
     	//sort the tuples by timestamp
-    	this.mergeSortByTimestamp(this.tuples);
+    	this.mergeSort(this.tuples);
     	
-    	//adding first tuple into map
+    	//---- adding first tuple into map ----
     	Tuple firstTuple = this.tuples.get(0);
+    	List<ComputerNode> list = new ArrayList<ComputerNode>();
     	list.add(new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp()));
     	map.put(firstTuple.getC1(), list);
     	list = new ArrayList<ComputerNode>();
@@ -85,110 +64,73 @@ public class CommunicationsMonitor {
     		
     		Tuple curTuple = this.tuples.get(i);
     		Tuple prevTuple = this.tuples.get(i-1);
-    		
-    		//returns 0 if there is no duplicate
-    		List<Integer> isDuplicate = isDuplicate(curTuple, prevTuple);
-    		
-    		//creates two computer nodes from the tuple
     		ComputerNode c1 = new ComputerNode(curTuple.getC1(), curTuple.getTimestamp());
 			ComputerNode c2 = new ComputerNode(curTuple.getC2(), curTuple.getTimestamp());
     		
-			//only want to add if there is 1 duplicate (if there is two we don't want to add any)
-    		if(isDuplicate.size() == 1) {
-    			
-    			//if the duplicate was c1, add c2
-    			if(isDuplicate.get(0) == curTuple.getC1()) {
-    				if(this.map.get(c2.getID()) == null) {
-    					list = new ArrayList<ComputerNode>();
-        				list.add(c2);
-        				this.map.put(c2.getID(), list);
-        			} else {
-        				list = this.map.get(c2.getID());
-        				list.add(c2);
-        				this.map.put(c2.getID(), list);
-        			}	
+    		//returns 0 if there is no duplicate
+    		int isDuplicate = isDuplicate(curTuple, prevTuple);
+	
+			//if there are no duplicates
+    		if(isDuplicate == 0) {
+    			//add each node and its neighbors
+    			c1.addNeighbor(c2);
+    			c2.addNeighbor(c1);
+    			addNode(c1);
+    			addNode(c2);
+    		} else { //there was a duplicate
+    			//if the duplicate was c2, add c1
+    			if(isDuplicate == curTuple.getC2()) {
+    				addNode(c1);	
     			} else {
-    				//if the duplicate was c2, add c1
-    				if(this.map.get(c1.getID()) == null) {
-    					list = new ArrayList<ComputerNode>();
-        				list.add(c1);
-        				this.map.put(c1.getID(), list);
-        			} else {
-        				list = this.map.get(c1.getID());
-        				list.add(c1);
-        				this.map.put(c1.getID(), list);
-        			}
+    				//if the duplicate was c1, add c2
+    				addNode(c2);
     			}
-
-    		} else if(isDuplicate.size() == 0){ //if no duplicates found
-    			
-    			if(this.map.get(c1.getID()) == null) {
-    				list = new ArrayList<ComputerNode>();
-    				list.add(c1);
-    				map.put(c1.getID(), list);
-    			} else {
-    				list = this.map.get(c1.getID());
-    				list.add(c1);
-    				this.map.put(c1.getID(), list);
-    			}
-    			
-    			if(this.map.get(c2.getID()) == null) {
-    				list = new ArrayList<ComputerNode>();
-    				list.add(c2);
-    				map.put(c2.getID(), list);
-    			} else {
-    				list = this.map.get(c2.getID());
-    				list.add(c2);
-    				this.map.put(c2.getID(), list);
-    			}	
-    		}	
+    		}
     	}
- 
-    	//sort the computerNodeIDs by ID
-//    	this.mergeSortByID(this.computerNodeIDs);
-//    	
-//    	//add first computer node to adjacency list
-//    	this.adjList = new ArrayList[computerNodeIDs.size()];
-//    	ArrayList<ComputerNode> list = new ArrayList<ComputerNode>();
-//    	list.add(this.compNodes.get(0));
-//    	this.adjList[0] = list;
-//    	
-//    	//READ-ME: watch out for the neighbor problem look into this
-//    	//create the adjacency list
-//    	for(int i = 1; i < compNodes.size(); i++) {
-//    		list = this.adjList[compNodes.get(i).getID()-1];
-//    		if(list == null) {
-//    			list = new ArrayList<ComputerNode>();
-//    		} 
-//    		list.add(compNodes.get(i));
-//    		this.adjList[compNodes.get(i).getID()-1] = list;
-//    	}
-    } 
+    }
     
     /**
-     * Returns any duplicates found in cur compared to prev as a list of integers
+     * Adds this node into the map
+     * @param c
+     */
+    public void addNode(ComputerNode c) {
+    	
+    	List<ComputerNode> list;
+    	
+    	if(this.map.get(c.getID()) == null) {
+			list = new ArrayList<ComputerNode>();
+			list.add(c);
+			map.put(c.getID(), list);
+		} else {
+			list = this.map.get(c.getID());
+			list.add(c);
+			this.map.put(c.getID(), list);
+		}	
+    }
+    
+    /**
+     * Finds any duplicates found in cur when compared to prev by comparing each of the 
+     * ID's in cur with the ID's in prev if the timestamp if the same
      * @param cur
      * @param prev
-     * @return
+     * @return a list of all duplicate computer node ID's
      */
-    public List<Integer> isDuplicate(Tuple cur, Tuple prev) {
+    public int isDuplicate(Tuple cur, Tuple prev) {
     	
-    	List<Integer> duplicates = new ArrayList<Integer>();
-    	
+
     	if(cur.getTimestamp() == prev.getTimestamp()) {	
     		if(cur.getC1() == prev.getC1()) {
-    			duplicates.add(cur.getC1());
+    			return cur.getC1();
     		} else if (cur.getC1() == prev.getC2()) {
-    			duplicates.add(cur.getC1());
+    			return cur.getC1();
     		} else if(cur.getC2() == prev.getC2()) {
-    			duplicates.add(cur.getC2());
+    			return cur.getC2();
     		} else if(cur.getC2() == prev.getC1()) {
-    			duplicates.add(cur.getC2());
+    			return cur.getC2();
     		}
     	} 
     	
-    	return duplicates;
-    	
+    	return 0;	
     }
     
     /**
@@ -245,7 +187,7 @@ public class CommunicationsMonitor {
     	return this.map.get(c);
     }
     
-    public void mergeByTimestamp(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
+    public void merge(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
     	int rightIndex = 0;
     	int leftIndex = 0;
     	int arrayListIndex = 0;
@@ -281,7 +223,7 @@ public class CommunicationsMonitor {
 
     }
     
-    public ArrayList<Tuple> mergeSortByTimestamp(ArrayList<Tuple> arrayList){
+    public ArrayList<Tuple> mergeSort(ArrayList<Tuple> arrayList){
     	
     	ArrayList<Tuple> leftArray = new ArrayList<Tuple>();
         ArrayList<Tuple> rightArray = new ArrayList<Tuple>();
@@ -304,11 +246,11 @@ public class CommunicationsMonitor {
     		}
     		
     		//sort left and right half of the array
-    		leftArray = mergeSortByTimestamp(leftArray);
-    		rightArray = mergeSortByTimestamp(rightArray);
+    		leftArray = mergeSort(leftArray);
+    		rightArray = mergeSort(rightArray);
     		
     		//merge the results back together
-    		mergeByTimestamp(arrayList, rightArray, leftArray);
+    		merge(arrayList, rightArray, leftArray);
     	}
     	
     	return arrayList;

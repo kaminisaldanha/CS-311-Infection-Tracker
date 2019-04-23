@@ -24,7 +24,7 @@ public class CommunicationsMonitorTest {
      * Tests if the adjacency list is created properly using example 1 computer nodes
      */
     @Test
-    public void testCreateGraph() {
+    public void testCreateGraph1() {
     	monitor = createExample1();
     	monitor.createGraph();
     	
@@ -32,6 +32,26 @@ public class CommunicationsMonitorTest {
     	assertEquals(2, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(2, monitor.getComputerMapping(4).size());
+    }
+    
+    @Test
+    public void testCreateGraph2() {
+    	monitor = createExample2();
+    	monitor.createGraph();
+    	
+    	assertEquals(2, monitor.getComputerMapping(1).size());
+    	assertEquals(2, monitor.getComputerMapping(2).size());
+    	assertEquals(1, monitor.getComputerMapping(3).size());
+    	assertEquals(1, monitor.getComputerMapping(4).size());
+    }
+    
+    public void testCreateGraph3() {
+    	monitor = createExample3();
+    	monitor.createGraph();
+    	
+    	assertEquals(1, monitor.getComputerMapping(1).size());
+    	assertEquals(2, monitor.getComputerMapping(2).size());
+    	assertEquals(1, monitor.getComputerMapping(3).size());
     }
     
 //    //Test if the ArrayList gets sorted by its Timestamp
@@ -80,17 +100,14 @@ public class CommunicationsMonitorTest {
 //    }
 //    
     @Test
-    public void getComputerMapping() {
+    public void getComputerMappin1() {
         monitor = createExample1();
         monitor.createGraph();
-        HashMap<Integer, List<ComputerNode>> map = monitor.getComputerMapping();
-
-        // Test that mapping has been updated
-        assertEquals(4,map.size());
+        assertEquals(4,monitor.getComputerMapping().size());
    }
 
     @Test
-    public void getComputerMapping1() {
+    public void getComputerMapping2() {
         // Invalid key value should return null list
         assertEquals(null, monitor.getComputerMapping(1));
 
@@ -130,6 +147,14 @@ public class CommunicationsMonitorTest {
         example2.addCommunication(1, 4, 12);
         example2.addCommunication(1, 2, 14);
         return example2;
+    }
+    
+    private CommunicationsMonitor createExample3() {
+    	CommunicationsMonitor example3 = new CommunicationsMonitor();
+        example3.addCommunication(2, 3, 8);
+        example3.addCommunication(2, 3, 8);
+        example3.addCommunication(1, 2, 14);
+        return example3;
     }
     
     /**
