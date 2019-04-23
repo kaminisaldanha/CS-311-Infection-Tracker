@@ -150,11 +150,11 @@ public class CommunicationsMonitor {
         //such that x' >= x. 
     	ComputerNode start = null, end = null, pathExists = null;
         List<ComputerNode> list = map.get(c1);
-        List<ComputerNode> path = new ArrayList<ComputerNode>();
+        List<ComputerNode> path = null;
         
         
         for(ComputerNode cn : list){
-            if(cn.getTimestamp() == x){ start = cn; }
+            if(cn.getTimestamp() == x) { start = cn; }
         }
         
         list = map.get(c2);
@@ -167,10 +167,20 @@ public class CommunicationsMonitor {
         }
         
         if(pathExists != null) {
-        	
+        	path = findPath(start, end, path);
         }
 
         return path;
+    }
+    
+    //READ-ME: find the time complexity of it 
+    public List<ComputerNode> findPath(ComputerNode toFind, ComputerNode node, List<ComputerNode> path){
+    	if(node.getPredeccesor().equals(toFind)) {
+    		return path;
+    	} else {
+    		path.add(node);
+    		return findPath(toFind, node.getPredeccesor(), path);
+    	}	
     }
 
     /**
