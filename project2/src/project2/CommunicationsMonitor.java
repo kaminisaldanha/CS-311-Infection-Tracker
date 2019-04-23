@@ -147,24 +147,24 @@ public class CommunicationsMonitor {
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
         //Walk through the list for Ca until we reach the first reference to a node (Ca, x')
         //such that x' >= x. 
-    	ComputerNode start, end;
+    	ComputerNode start = null, end = null;
         List<ComputerNode> list = map.get(c1);
+        List<ComputerNode> path = null;
         
         for(ComputerNode cn : list){
-            if(cn.getTimestamp() == x){
-                start = cn;
-            }
+            if(cn.getTimestamp() == x){ start = cn; }
         }
+        
         list = map.get(c2);
         for(ComputerNode cn: list) {
-        	if(cn.getTimestamp() == y) {
-        		end = cn;
-        	}
+        	if(cn.getTimestamp() == y) { end = cn; }
         }
         
-        
-        DFS(node);
-        
+        if(start != null && end != null) {
+            path = DFS(start, end);
+        }
+
+        return path;
     }
 
     /**
@@ -263,7 +263,7 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private List<ComputerNode> DFS(ComputerNode c1, ComputerNode c2, int x, int y) {
+    private List<ComputerNode> DFS(ComputerNode c1, ComputerNode c2) {
 		List<ComputerNode> path = new ArrayList<ComputerNode>();
 		path.add(c1);
 		path = DFSVisit(c1, c2, x, y, path);
