@@ -148,9 +148,10 @@ public class CommunicationsMonitor {
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
         //Walk through the list for Ca until we reach the first reference to a node (Ca, x')
         //such that x' >= x. 
-    	ComputerNode start = null, end = null;
+    	ComputerNode start = null, end = null, pathExists = null;
         List<ComputerNode> list = map.get(c1);
-        List<ComputerNode> path = null;
+        List<ComputerNode> path = new ArrayList<ComputerNode>();
+        
         
         for(ComputerNode cn : list){
             if(cn.getTimestamp() == x){ start = cn; }
@@ -162,7 +163,11 @@ public class CommunicationsMonitor {
         }
         
         if(start != null && end != null) {
-            path = DFS(start, end);
+            pathExists = DFS(start, end);
+        }
+        
+        if(pathExists != null) {
+        	
         }
 
         return path;
@@ -264,7 +269,7 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private List<ComputerNode> DFS(ComputerNode start, ComputerNode end) {
+    private ComputerNode DFS(ComputerNode start, ComputerNode end) {
 		List<ComputerNode> path = new ArrayList<ComputerNode>();
 		path.add(start);
 		
@@ -272,9 +277,9 @@ public class CommunicationsMonitor {
 		
 		while(iterator.hasNext()) {
 			ComputerNode node = iterator.next();
-			if(node.getColor() == 0) {
-				ComputerNode temp = DFSUtil(start, end);
-				if(temp != null) {
+			if(node.getColor() == 0) { //check if color is white
+				ComputerNode temp = DFSVisit(start, end);
+				if(temp != null) { //if path exists
 					return temp;
 				}
 			}
@@ -284,12 +289,25 @@ public class CommunicationsMonitor {
 		return null;
 	}
 	
-	private List<ComputerNode> DFSVisit(ComputerNode c1, ComputerNode c2){
-		//c1.setColor(1);
-		for(int i = 0; i < c1.getOutNeighbors().size(); i++) {
-			ComputerNode temp = c1.getOutNeighbors().get(i);
+	private ComputerNode DFSVisit(ComputerNode start, ComputerNode end){
+		
+		start.setColor(1); // set color to grey
+		Iterator<ComputerNode> iterator = start.getOutNeighbors().iterator();
+		while(iterator.hasNext()) {
+			ComputerNode node = iterator.next();
+			if(node.getColor() == 0) { //checks if color is white
+				node.setPredeccesor(start);
+				if(node.getID() == end.getID() && start.getTimestamp() <= end.getTimestamp()) {
+					return node;
+				} else {
+					return DFSVisit(node, end);
+				}
+			}
 		}
-		return path;
+		
+		//setting color to black
+		start.setColor(2);
+		return null;
 	}
 	
 	
