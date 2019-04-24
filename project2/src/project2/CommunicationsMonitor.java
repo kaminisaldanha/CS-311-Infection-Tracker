@@ -46,6 +46,7 @@ public class CommunicationsMonitor {
 	public void createGraph() {
     	//sort the tuples by timestamp
     	this.mergeSort(this.tuples);
+    	
     	//adding all tuples into map
     	for(int i = 0; i < this.tuples.size(); i++) {
     		
@@ -82,8 +83,12 @@ public class CommunicationsMonitor {
 			list.add(cur);
 		} else {
 			list = this.map.get(cur.getID());
-			ComputerNode prev = this.map.get(cur.getID()).get(this.map.get(cur.getID()).size() - 1);
-			prev.addNeighbor(cur);
+			
+			for(int i = 0; i < map.get(cur.getID()).size(); i++) {
+				ComputerNode prev = map.get(cur.getID()).get(i);
+				prev.addNeighbor(cur);
+			}
+			
 			list.add(cur);
 		}	
     	

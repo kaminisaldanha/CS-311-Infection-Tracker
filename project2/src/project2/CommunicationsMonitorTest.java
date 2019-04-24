@@ -269,9 +269,7 @@ public class CommunicationsMonitorTest {
 		List<ComputerNode> path = monitor.queryInfection(1, 3, 2, 9);
 		assertEquals(null, path);
 	}
-    
-    
-    
+
     @Test
     public void testQueryInfectionExample4() {
     	
@@ -432,8 +430,7 @@ public class CommunicationsMonitorTest {
         monitor = createExample2();
         monitor.createGraph();
         List<ComputerNode> list = monitor.queryInfection(1, 3, 2, 8);
-        assertEquals(null, list);
-        
+        assertEquals(null, list);    
     }
 
     @Test
