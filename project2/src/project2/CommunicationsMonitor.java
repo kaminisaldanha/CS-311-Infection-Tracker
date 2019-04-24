@@ -104,7 +104,7 @@ public class CommunicationsMonitor {
         	for(int i = 0; i < this.map.get(c1.getID()).size(); i++) {
         		if(c1.getTimestamp() == this.map.get(c1.getID()).get(i).getTimestamp()) {
         			this.map.get(c1.getID()).get(i).addNeighbor(c2);
-        			c2.addNeighbor(c1);
+        			c2.addNeighbor(this.map.get(c1.getID()).get(i));
         			return true;
         		}
         	}
@@ -146,6 +146,15 @@ public class CommunicationsMonitor {
     	
     	return null;	
     }
+//  path should be = (1, 4), (2, 4), (2, 8), (4, 8), (3, 8)
+//	Neighbors should be:
+//	(1,4) = {(2,4), (1, 12)}
+//	(1, 12) = {(4, 12)}
+//	(2, 4) = {(1, 4), (2,8)}
+//	(2, 8) = {(4, 8)}
+//	(3, 8) = {(4, 8)}
+//	(4, 8) = {(3, 8), (2, 8), (4, 12)}
+//	(4, 12) = {(1, 12)}
     
     
 	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
