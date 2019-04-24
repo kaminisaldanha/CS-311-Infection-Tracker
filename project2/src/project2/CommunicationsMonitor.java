@@ -148,9 +148,6 @@ public class CommunicationsMonitor {
     	return null;	
     }
     
-//	example4.addCommunication(1, 2, 4);
-//	example4.addCommunication(2, 3, 5);
-//	example4.addCommunication(3, 4, 7);
     
 	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
 		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
@@ -174,7 +171,6 @@ public class CommunicationsMonitor {
         return null;
 	}
     
-    //READ-ME: find the time complexity of it (think it is O(n))
     public List<ComputerNode> findPath(ComputerNode node){
     	
     	List<ComputerNode> path = new ArrayList<ComputerNode>();

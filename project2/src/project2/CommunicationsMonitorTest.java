@@ -19,6 +19,7 @@ public class CommunicationsMonitorTest {
     }
     
     CommunicationsMonitor cm;
+    
 	@Before
 	public void before() {
 		cm = new CommunicationsMonitor();
@@ -70,8 +71,7 @@ public class CommunicationsMonitorTest {
     	assertEquals(2, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
     	assertEquals(1, monitor.getComputerMapping(2).get(1).getOutNeighbors().size());
     	assertEquals(1, monitor.getComputerMapping(3).get(0).getOutNeighbors().size());
-    	assertEquals(1, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());
-    	
+    	assertEquals(1, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());	
     }
     
     @Test
@@ -238,17 +238,57 @@ public class CommunicationsMonitorTest {
 		
 	}
     
-//	example4.addCommunication(1, 2, 4);
-//	example4.addCommunication(2, 3, 5);
-//	example4.addCommunication(3, 4, 7);
+//	example1.addCommunication(1, 2, 4);
+//	example1.addCommunication(2, 4, 8);
+//	example1.addCommunication(3, 4, 8);
+//	example1.addCommunication(1, 4, 12);
     
     @Test
-    public void testQueryInfection1() {
+    public void testQueryInfectionExample1() {
+    	monitor = createExample1();
+    	monitor.createGraph();
+    	List<ComputerNode> path = monitor.queryInfection(1, 3, 2, 8);
+//      path should be = (1, 4), (2, 4), (2, 8), (4, 8), (3, 8)
+//		Neighbors should be:
+//    	(1,4) = {(2,4), (1, 12)}
+//    	(1, 12) = {(4, 12), (1, 12)}
+//    	(2, 4) = {(1, 4), (2,8)}
+//    	(2, 8) = {(4, 8), (2, 4)}
+//    	(3, 8) = {(4, 8)}
+//    	(4, 8) = {(3, 8), (2, 8), (4, 12)}
+//    	(4, 12) = {(1, 12), (4, 8)
+    	
+    	assertEquals(1, path.get(0).getID());
+    	assertEquals(4, path.get(0).getTimestamp());
+    	assertEquals(2, path.get(1).getID());
+    	assertEquals(4, path.get(1).getTimestamp());
+    	assertEquals(2, path.get(2).getID());
+    	assertEquals(8, path.get(2).getTimestamp());
+    	assertEquals(4, path.get(3).getID());
+    	assertEquals(8, path.get(3).getTimestamp());
+    	assertEquals(3, path.get(4).getID());
+    	assertEquals(8, path.get(4).getTimestamp());
+    }
+    
+    @Test
+	public void testQueryInfectionExample2() {
+		
+    	monitor = createExample2();
+    	monitor.createGraph();
+		List<ComputerNode> path = monitor.queryInfection(1, 3, 2, 9);
+		assertEquals(null, path);
+	}
+    
+    
+    
+    @Test
+    public void testQueryInfectionExample4() {
     	
     	monitor = createExample4();
     	monitor.createGraph();
     	List<ComputerNode> path = monitor.queryInfection(1, 4, 2, 7);
     	
+    	//testing the order of the ID and timestamps of the nodes in the path
     	assertEquals(1, path.get(0).getID());
     	assertEquals(4, path.get(0).getTimestamp());
     	assertEquals(2, path.get(1).getID());
@@ -262,19 +302,6 @@ public class CommunicationsMonitorTest {
     	assertEquals(4, path.get(5).getID());
     	assertEquals(7, path.get(5).getTimestamp());
     }
-    
-    @Test
-	public void testQueryInfectionExample2() {
-		cm.createGraph();
-		List<ComputerNode> path = cm.queryInfection(1, 3, 2, 9);
-		HashMap<Integer, List<ComputerNode>> adjList = cm.getComputerMapping();
-		
-		assertEquals(adjList.get(1).get(0), path.get(0));
-		assertEquals(adjList.get(2).get(0), path.get(1));
-		assertEquals(adjList.get(2).get(1), path.get(2));
-		assertEquals(adjList.get(4).get(0), path.get(3));
-		assertEquals(adjList.get(3).get(0), path.get(4));
-	}
 
     @Test
 	public void testQueryInfectionNoNode() {
@@ -461,6 +488,7 @@ public class CommunicationsMonitorTest {
     
     @Test
  	public void testCaseOne() {
+     monitor = new CommunicationsMonitor();
 	 monitor.addCommunication(1, 2, 5);
 	 monitor.addCommunication(1, 3, 6);
 	 monitor.addCommunication(1, 4, 7);
