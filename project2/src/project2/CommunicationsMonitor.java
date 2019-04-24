@@ -133,31 +133,22 @@ public class CommunicationsMonitor {
      * @return List of the path in the graph (infection path) if one exists, null otherwise.
      */
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
-        //Walk through the list for Ca until we reach the first reference to a node (Ca, x')
-        //such that x' >= x. 
-    	ComputerNode start = null, end = null, pathExists = null;
-        List<ComputerNode> list = map.get(c1);
+
+    	ComputerNode pathExists = null;
         List<ComputerNode> path = null;
+        List<ComputerNode> start = map.get(c1), end = map.get(c2);
         
-        
-        for(ComputerNode cn : list){
-            if(cn.getTimestamp() == x) { start = cn; }
-        }
-        
-        list = map.get(c2);
-        for(ComputerNode cn: list) {
-        	if(cn.getTimestamp() == y) { end = cn; }
-        }
-        
-        if(start != null && end != null) {
-            pathExists = DFS(start, end);
+        for(int i = 0; i  < start.size(); i++) {
+        	if(start.get(i).getTimestamp() >= x) {
+        		pathExists = DFS(start.get(i), c2, y);
+        	}
         }
         
         if(pathExists != null) {
-        	path = findPath(start, end, path);
+        	return findPath();
         }
-
-        return path;
+        
+        
     }
     
     //READ-ME: find the time complexity of it 
@@ -271,7 +262,7 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private ComputerNode DFS(ComputerNode start, ComputerNode end) {
+    private ComputerNode DFS(ComputerNode start, int endID, int endTimestamp) {
 		List<ComputerNode> path = new ArrayList<ComputerNode>();
 		path.add(start);
 		
@@ -280,7 +271,7 @@ public class CommunicationsMonitor {
 		while(iterator.hasNext()) {
 			ComputerNode node = iterator.next();
 			if(node.getColor() == 0) { //check if color is white
-				ComputerNode temp = DFSVisit(start, end);
+				ComputerNode temp = DFSVisit(start, endID, endTimestamp);
 				if(temp != null) { //if path exists
 					return temp;
 				}
@@ -291,7 +282,7 @@ public class CommunicationsMonitor {
 		return null;
 	}
 	
-	private ComputerNode DFSVisit(ComputerNode start, ComputerNode end){
+	private ComputerNode DFSVisit(ComputerNode start, int endID, int endTimestamp){
 		
 		start.setColor(1); // set color to grey
 		Iterator<ComputerNode> iterator = start.getOutNeighbors().iterator();
@@ -299,10 +290,10 @@ public class CommunicationsMonitor {
 			ComputerNode node = iterator.next();
 			if(node.getColor() == 0) { //checks if color is white
 				node.setPredeccesor(start);
-				if(node.getID() == end.getID() && start.getTimestamp() <= end.getTimestamp()) {
+				if(node.getID() == endID && start.getTimestamp() <= endTimestamp) {
 					return node;
 				} else {
-					return DFSVisit(node, end);
+					return DFSVisit(node, endID, endTimestamp);
 				}
 			}
 		}
@@ -310,7 +301,5 @@ public class CommunicationsMonitor {
 		//setting color to black
 		start.setColor(2);
 		return null;
-	}
-	
-	
+	}	
 }
