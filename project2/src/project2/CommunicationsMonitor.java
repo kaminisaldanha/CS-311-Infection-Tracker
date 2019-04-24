@@ -130,8 +130,7 @@ public class CommunicationsMonitor {
      * @param y  Time c2 is being tested for being infected.
      * @return List of the path in the graph (infection path) if one exists, null otherwise.
      */
-    public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
-    	
+    public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {   	
     	ComputerNode found = null;
     	List<ComputerNode> start = this.map.get(c1);
     	for(ComputerNode node: start) {
