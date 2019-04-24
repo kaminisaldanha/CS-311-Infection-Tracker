@@ -587,7 +587,74 @@ public class CommunicationsMonitorTest {
 	 
 	}
  	
- 	
+	@Test
+	public void testQueryInfectionColor() {
+		CommunicationsMonitor comMon = new CommunicationsMonitor();
+		comMon.addCommunication(1,2,4);
+		comMon.addCommunication(2,4,8);
+		comMon.addCommunication(3,4,8);
+		comMon.addCommunication(1,4,12);
+		comMon.addCommunication(4,3,15);
+		comMon.addCommunication(2,4,16);
+		comMon.addCommunication(1,3,20);
+		
+		comMon.createGraph();
+		List<ComputerNode> list = comMon.queryInfection(2,3,8,12);
+		for(int i = 0; i < list.size(); i++) 
+			System.out.print("ID: " + list.get(i).getID() + "   Time: " + list.get(i).getTimestamp() + "\n");
+		list = comMon.queryInfection(2,4,8,12);
+		
+	}
+	
+	@Test
+	public void testQueryInfection() {
+		CommunicationsMonitor comMon = new CommunicationsMonitor();
+		comMon.addCommunication(1,3,6);
+		comMon.addCommunication(2,3,7);
+		comMon.addCommunication(4,1,4);
+		comMon.addCommunication(3,2,12);
+		comMon.addCommunication(1,3,7);
+		comMon.addCommunication(4,3,10);
+		
+		comMon.createGraph();
+		
+		List<ComputerNode> list1;
+		list1 = comMon.queryInfection(1, 3, 2, 8);
+		assertEquals(true, list1 != null);
+		
+		list1 = comMon.queryInfection(1, 2, 8, 12);
+		assertEquals(true, list1 == null);
+		
+		list1 = comMon.queryInfection(4, 2, 3, 6);
+		assertEquals(true, list1 == null);
+		
+		list1 = comMon.queryInfection(4, 2, 0, 12);
+		assertEquals(true, list1 != null);
+		
+		System.out.println("Size: " + list1.size());
+		
+		CommunicationsMonitor comMon2 = new CommunicationsMonitor();
+		comMon2.addCommunication(1,2,4);
+		comMon2.addCommunication(2,4,8);
+		comMon2.addCommunication(3,4,8);
+		comMon2.addCommunication(1,4,12);
+		
+		comMon2.createGraph();
+		List<ComputerNode> list2 = comMon2.queryInfection(1, 4, 4, 10);
+
+		
+		List<ComputerNode> list3 = comMon2.queryInfection(1, 3, 1, 15);
+		List<ComputerNode> list4 = comMon2.queryInfection(4, 3, 9, 12);
+		assertEquals(true, list2 != null);
+		assertEquals(true, list3 != null);
+		assertEquals(true, list4 == null);
+		
+		
+		if(list2 != null)
+			for(int i = 0; i < list2.size(); i++) 
+				System.out.print("ID: " + list2.get(i).getID() + "   Time: " + list2.get(i).getTimestamp() + "\n");
+		System.out.print("\n");
+	}
     
     //--------------------------------------------------------------------------
     // Helper Methods
