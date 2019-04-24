@@ -279,23 +279,22 @@ public class CommunicationsMonitor {
    
 	
 	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
-		if(node.getColor() == 0) {
-		  	node.setColor(1); //Grey
-	        // Recur for all the vertices adjacent to this vertex
-	        Iterator<ComputerNode> i = node.getOutNeighbors().listIterator();
-	        while (i.hasNext()) {
-	            ComputerNode next = i.next();
-	            if (next.getColor() == 0) { //isWhite
-	                next.setPredeccesor(node);
-	                if (next.getID() == ID && next.getTimestamp() <= timestamp) {
-	                    return next;
-	                } else {
-	                    return DFS(next, ID, timestamp);
-	                }
-	            }
-	        }
-	        
-	        node.setColor(2); //black
+		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
+		  	node.setColor(1); //node is visited (i.e. grey)
+		  	List<ComputerNode> neighbors = node.getOutNeighbors();
+		  	for(int i = 0; i < neighbors.size(); i++) {
+		  		ComputerNode next = neighbors.get(i);
+		  		if(next.getColor() == 0) { //isWhite
+		  			 next.setPredeccesor(node);
+		  			 if(next.getID() == ID && next.getTimestamp() <= timestamp) { //found the end node
+		  				 return next;
+		  			 } else {
+		  				 return DFS(next, ID, timestamp); // keep looking
+		  			 }
+		  		}
+		  	}
+		  	
+		  	node.setColor(2); //node is completed (i.e. set black)
 		}
 
         return null;
