@@ -656,6 +656,203 @@ public class CommunicationsMonitorTest {
 		System.out.print("\n");
 	}
     
+	/**
+     * This is example 1 form the project description
+     */
+	@Test
+    public void example1() {
+        CommunicationsMonitor cm = new CommunicationsMonitor();
+        cm.addCommunication(1, 2, 4);
+        cm.addCommunication(2, 4, 8);
+        cm.addCommunication(3, 4, 8);
+        cm.addCommunication(1, 4, 12);
+        cm.createGraph();
+
+
+        assertEquals(3, getLast(cm.queryInfection(1, 3, 2, 8)).getID());
+
+    }
+	@Test
+    public void example1CheekGraph() {
+        CommunicationsMonitor cm = new CommunicationsMonitor();
+        cm.addCommunication(1, 2, 4);
+        cm.addCommunication(2, 4, 8);
+        cm.addCommunication(3, 4, 8);
+        cm.addCommunication(1, 4, 12);
+        cm.createGraph();
+
+        HashMap<Integer, List<ComputerNode>> graph = cm.getComputerMapping();
+
+
+        ComputerNode one = new ComputerNode(1,4);
+        ComputerNode two = new ComputerNode(2,4);
+        ComputerNode three = new ComputerNode(2,8);
+        ComputerNode four = new ComputerNode(4,8);
+        ComputerNode five = new ComputerNode(3,8);
+        ComputerNode six = new ComputerNode(1,12);
+        ComputerNode seven = new ComputerNode(4,12);
+        one.addNeighbor(two);
+        one.addNeighbor(six);
+
+
+        two.addNeighbor(one);
+        two.addNeighbor(three);
+
+        three.addNeighbor(four);
+
+        four.addNeighbor(three);
+        four.addNeighbor(five);
+        four.addNeighbor(seven);
+
+        five.addNeighbor(four);
+
+        six.addNeighbor(seven);
+        seven.addNeighbor(six);
+
+
+        List<ComputerNode> c1 = graph.get(1);
+        List<ComputerNode> c2 = graph.get(2);
+        List<ComputerNode> c3 = graph.get(3);
+        List<ComputerNode> c4 = graph.get(4);
+
+        assertEquals(2, c1.size());
+        assertEquals(2, c2.size());
+        assertEquals(1, c3.size());
+        assertEquals(2, c4.size());
+
+    }
+
+    @Test
+    public void temp() {
+        cm.addCommunication(2, 3, 8);
+        cm.addCommunication(1, 4, 12);
+        cm.addCommunication(1, 2, 14);
+        cm.createGraph();
+
+        List<ComputerNode> temp = cm.queryInfection(1, 3, 2, 8);
+    }
+
+    @Test
+    public void InfectAfterLastCommunication() {
+        cm.addCommunication(1, 2, 4);
+        cm.createGraph();
+        assertEquals(null, cm.queryInfection(1, 2, 5, 5));
+    }
+    
+    @Test
+    public void createGraphExampleOn() {
+        // Create graph from example 1
+        monitor = new CommunicationsMonitor();
+        monitor = createExample1();
+        monitor.createGraph();
+        // Test that all computers are initialized in HashMap
+        assertTrue(monitor.getComputerMapping(1) != null);
+        assertTrue(monitor.getComputerMapping(2) != null);
+        assertTrue(monitor.getComputerMapping(3) != null);
+        assertTrue(monitor.getComputerMapping(4) != null);
+        assertTrue(monitor.getComputerMapping(5) == null);
+
+        // Test C1 HashMap
+        List<ComputerNode> c1Mapping = monitor.getComputerMapping(1);
+        assertEquals(2, c1Mapping.size());
+        ComputerNode c1Four = c1Mapping.get(0);
+        ComputerNode c1Twelve = c1Mapping.get(1);
+        assertEquals(1, c1Four.getID());
+        assertEquals(4, c1Four.getTimestamp());
+        assertEquals(1, c1Twelve.getID());
+        assertEquals(12, c1Twelve.getTimestamp());
+
+        // Test (C1, 4) Neighbors
+        assertEquals(2, c1Four.getOutNeighbors().size());
+        assertEquals(2, c1Four.getOutNeighbors().get(0).getID());
+        assertEquals(4, c1Four.getOutNeighbors().get(0).getTimestamp());
+        assertEquals(1, c1Four.getOutNeighbors().get(1).getID());
+        assertEquals(12, c1Four.getOutNeighbors().get(1).getTimestamp());
+
+        // Test (C1, 12) Neighbors
+        assertEquals(1, c1Twelve.getOutNeighbors().size());
+        assertEquals(4, c1Twelve.getOutNeighbors().get(0).getID());
+        assertEquals(12, c1Twelve.getOutNeighbors().get(0).getTimestamp());
+
+        // Test C2 HashMap
+        List<ComputerNode> c2Mapping = monitor.getComputerMapping(2);
+        assertEquals(2, c2Mapping.size());
+        ComputerNode c2Four = c2Mapping.get(0);
+        ComputerNode c2Eight = c2Mapping.get(1);
+        assertEquals(2, c2Four.getID());
+        assertEquals(4, c2Four.getTimestamp());
+        assertEquals(2, c2Eight.getID());
+        assertEquals(8, c2Eight.getTimestamp());
+
+        // Test (C2, 4) Neighbors
+        assertEquals(2, c2Four.getOutNeighbors().size());
+        assertEquals(1, c2Four.getOutNeighbors().get(0).getID());
+        assertEquals(4, c2Four.getOutNeighbors().get(0).getTimestamp());
+        assertEquals(2, c2Four.getOutNeighbors().get(1).getID());
+        assertEquals(8, c2Four.getOutNeighbors().get(1).getTimestamp());
+
+        // Test (C2, 8) Neighbors
+        assertEquals(1, c2Eight.getOutNeighbors().size());
+        assertEquals(4, c2Eight.getOutNeighbors().get(0).getID());
+        assertEquals(8, c2Eight.getOutNeighbors().get(0).getTimestamp());
+
+        // Test C3 HashMap
+        List<ComputerNode> c3Mapping = monitor.getComputerMapping(3);
+        assertEquals(1, c3Mapping.size());
+        ComputerNode c3Eight = c3Mapping.get(0);
+        assertEquals(3, c3Eight.getID());
+        assertEquals(8, c3Eight.getTimestamp());
+
+        // Test (C3, 8) Neighbors
+        assertEquals(1, c3Eight.getOutNeighbors().size());
+        assertEquals(4, c3Eight.getOutNeighbors().get(0).getID());
+        assertEquals(8, c3Eight.getOutNeighbors().get(0).getTimestamp());
+
+        // Test C4 HashMap
+        List<ComputerNode> c4Mapping = monitor.getComputerMapping(4);
+        assertEquals(2, c4Mapping.size());
+        ComputerNode c4Eight = c4Mapping.get(0);
+        ComputerNode c4Twelve = c4Mapping.get(1);
+        assertEquals(4, c4Eight.getID());
+        assertEquals(8, c4Eight.getTimestamp());
+        assertEquals(4, c4Twelve.getID());
+        assertEquals(12, c4Twelve.getTimestamp());
+
+        // Test (C4, 8) Neighbors
+        assertEquals(3, c4Eight.getOutNeighbors().size());
+        assertEquals(3, c4Eight.getOutNeighbors().get(0).getID());
+        assertEquals(8, c4Eight.getOutNeighbors().get(0).getTimestamp());
+        assertEquals(2, c4Eight.getOutNeighbors().get(1).getID());
+        assertEquals(8, c4Eight.getOutNeighbors().get(1).getTimestamp());
+        assertEquals(4, c4Eight.getOutNeighbors().get(2).getID());
+        assertEquals(12, c4Eight.getOutNeighbors().get(2).getTimestamp());
+
+        // Test (C4, 12) Neighbors
+        assertEquals(1, c4Twelve.getOutNeighbors().size());
+        assertEquals(1, c4Twelve.getOutNeighbors().get(0).getID());
+        assertEquals(12, c4Twelve.getOutNeighbors().get(0).getTimestamp());
+    }
+    @Test
+    public void queryInfectionExampleThree() {
+        // Create Example 1 graph
+        monitor = new CommunicationsMonitor();
+        monitor = createExample1();
+        monitor.createGraph();
+        // Test that C3 gets infected at time = 8 if C1 is infected at time = 2
+        List<ComputerNode> infectedList = monitor.queryInfection(1, 3, 2, 8);
+        assertEquals(5, infectedList.size());
+        assertEquals(1, infectedList.get(0).getID());
+        assertEquals(4, infectedList.get(0).getTimestamp());
+        assertEquals(2, infectedList.get(1).getID());
+        assertEquals(4, infectedList.get(1).getTimestamp());
+        assertEquals(2, infectedList.get(2).getID());
+        assertEquals(8, infectedList.get(2).getTimestamp());
+        assertEquals(4, infectedList.get(3).getID());
+        assertEquals(8, infectedList.get(3).getTimestamp());
+        assertEquals(3, infectedList.get(4).getID());
+        assertEquals(8, infectedList.get(4).getTimestamp());
+    }
+    
     //--------------------------------------------------------------------------
     // Helper Methods
     //--------------------------------------------------------------------------
@@ -729,5 +926,8 @@ public class CommunicationsMonitorTest {
     private CommunicationsMonitor EmptyComputerNodeList(){
     	CommunicationsMonitor example4 = new CommunicationsMonitor();
     	return example4;
+    }
+    private ComputerNode getLast(List<ComputerNode> computerNodes) {
+        return computerNodes.get(computerNodes.size() - 1);
     }
 }
