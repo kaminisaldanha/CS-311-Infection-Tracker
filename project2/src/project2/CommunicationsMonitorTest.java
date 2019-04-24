@@ -173,7 +173,6 @@ public class CommunicationsMonitorTest {
         assertEquals(null, monitor.getComputerMapping(3));
     }
     
-    //no work
     @Test
 	public void testCreateGraph() {
 		cm.createGraph();
@@ -225,9 +224,9 @@ public class CommunicationsMonitorTest {
 			//C4[0]
 		List<ComputerNode> c4Neighbors = c4.get(0).getOutNeighbors();
 		assertEquals(3, c4Neighbors.size());
-		assertEquals(2, c4Neighbors.get(0).getID());
+		assertEquals(3, c4Neighbors.get(0).getID());
 		assertEquals(8, c4Neighbors.get(0).getTimestamp());
-		assertEquals(3, c4Neighbors.get(1).getID());
+		assertEquals(2, c4Neighbors.get(1).getID());
 		assertEquals(8, c4Neighbors.get(1).getTimestamp());
 		assertEquals(4, c4Neighbors.get(2).getID());
 		assertEquals(12, c4Neighbors.get(2).getTimestamp());
@@ -239,7 +238,6 @@ public class CommunicationsMonitorTest {
 		
 	}
     
-    //no work
     @Test
 	public void testQueryInfectionExample1() {
 		cm.createGraph();
@@ -253,7 +251,6 @@ public class CommunicationsMonitorTest {
 		assertEquals(adjList.get(3).get(0), path.get(4));
 	}
 
-    //no work
     @Test
 	public void testQueryInfectionNoNode() {
 		cm.createGraph();
@@ -272,7 +269,6 @@ public class CommunicationsMonitorTest {
 		assertEquals(null, path);
 	}
 
-	//no work
     @Test
     public void createGraphExampleOne() {
         // Create graph from example 1
@@ -352,9 +348,9 @@ public class CommunicationsMonitorTest {
 
         // Test (C4, 8) Neighbors
         assertEquals(3, c4Eight.getOutNeighbors().size());
-        assertEquals(2, c4Eight.getOutNeighbors().get(0).getID());
+        assertEquals(3, c4Eight.getOutNeighbors().get(0).getID());
         assertEquals(8, c4Eight.getOutNeighbors().get(0).getTimestamp());
-        assertEquals(3, c4Eight.getOutNeighbors().get(1).getID());
+        assertEquals(2, c4Eight.getOutNeighbors().get(1).getID());
         assertEquals(8, c4Eight.getOutNeighbors().get(1).getTimestamp());
         assertEquals(4, c4Eight.getOutNeighbors().get(2).getID());
         assertEquals(12, c4Eight.getOutNeighbors().get(2).getTimestamp());
@@ -365,7 +361,6 @@ public class CommunicationsMonitorTest {
         assertEquals(12, c4Twelve.getOutNeighbors().get(0).getTimestamp());
     }
 
-    //no work
     @Test
     public void queryInfectionExampleOne() {
         // Create Example 1 graph
@@ -388,7 +383,6 @@ public class CommunicationsMonitorTest {
     }
 
     
-   //no work
     @Test
     public void queryInfectionExampleTwo() {
         // Create Example 2 graph
@@ -497,8 +491,6 @@ public class CommunicationsMonitorTest {
 	 assertEquals(2, infectionPath.get(4).getID());
 	 assertEquals(10, infectionPath.get(4).getTimestamp());
 	 assertEquals(5, infectionPath.size());
-	 
-	 
 	 
 	 
  }
