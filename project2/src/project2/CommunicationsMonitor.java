@@ -44,10 +44,8 @@ public class CommunicationsMonitor {
      * Constructs the data structure as specified in the Section 2. This method should run in O(n + m log m) time.
      */
 	public void createGraph() {
-
     	//sort the tuples by timestamp
     	this.mergeSort(this.tuples);
-    	
     	//adding all tuples into map
     	for(int i = 0; i < this.tuples.size(); i++) {
     		
@@ -109,6 +107,7 @@ public class CommunicationsMonitor {
         		}
         	}
     	}
+    	
     	return false;
     }
 
@@ -146,16 +145,6 @@ public class CommunicationsMonitor {
     	
     	return null;	
     }
-//  path should be = (1, 4), (2, 4), (2, 8), (4, 8), (3, 8)
-//	Neighbors should be:
-//	(1,4) = {(2,4), (1, 12)}
-//	(1, 12) = {(4, 12)}
-//	(2, 4) = {(1, 4), (2,8)}
-//	(2, 8) = {(4, 8)}
-//	(3, 8) = {(4, 8)}
-//	(4, 8) = {(3, 8), (2, 8), (4, 12)}
-//	(4, 12) = {(1, 12)}
-    
     
 	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
 		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
