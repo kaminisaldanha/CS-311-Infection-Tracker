@@ -99,7 +99,6 @@ public class CommunicationsMonitor {
      * @return a list of all duplicate computer node ID's
      */
     public boolean isDuplicate(ComputerNode c1, ComputerNode c2) {
-    	
     	if(this.map.get(c1.getID()) != null) {
         	for(int i = 0; i < this.map.get(c1.getID()).size(); i++) {
         		if(c1.getTimestamp() == this.map.get(c1.getID()).get(i).getTimestamp()) {
@@ -109,11 +108,9 @@ public class CommunicationsMonitor {
         		}
         	}
     	}
-    	
     	return false;
     }
 
-    
     /**
      * Determines whether computer c2 could be infected by time y if computer c1 was infected at time x. If so, the
      * method returns an ordered list of ComputerNode objects that represents the transmission sequence. This sequence
@@ -133,32 +130,36 @@ public class CommunicationsMonitor {
      * @return List of the path in the graph (infection path) if one exists, null otherwise.
      */
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
+    	
+    	if(y < x) { return null; }
 
-    	ComputerNode pathExists = null;
-        List<ComputerNode> path = null;
-        List<ComputerNode> start = map.get(c1), end = map.get(c2);
+        ComputerNode node = null;
+        List<ComputerNode> start = map.get(c1), path = new ArrayList<ComputerNode>();
         
         for(int i = 0; i  < start.size(); i++) {
         	if(start.get(i).getTimestamp() >= x) {
-        		pathExists = DFS(start.get(i), c2, y);
+        		node =  DFSVisit(start.get(i), c2, y);
+        		break;
         	}
         }
         
-        if(pathExists != null) {
-        	return findPath();
-        }
+        if(node != null) {
+        	return findPath(node, path);
+        }  
         
-        
+        return null;
     }
     
     //READ-ME: find the time complexity of it 
-    public List<ComputerNode> findPath(ComputerNode toFind, ComputerNode node, List<ComputerNode> path){
-    	if(node.getPredeccesor().equals(toFind)) {
+    public List<ComputerNode> findPath(ComputerNode node, List<ComputerNode> path){
+    	
+    	if(node == null) {
     		return path;
-    	} else {
-    		path.add(node);
-    		return findPath(toFind, node.getPredeccesor(), path);
-    	}	
+    	}
+    	
+    	path.add(node);
+    	return findPath(node.getPredeccesor(), path);
+    	
     }
 
     /**
@@ -263,9 +264,6 @@ public class CommunicationsMonitor {
     }
     
     private ComputerNode DFS(ComputerNode start, int endID, int endTimestamp) {
-		List<ComputerNode> path = new ArrayList<ComputerNode>();
-		path.add(start);
-		
 		Iterator<ComputerNode> iterator = start.getOutNeighbors().listIterator();
 		
 		while(iterator.hasNext()) {
@@ -283,23 +281,23 @@ public class CommunicationsMonitor {
 	}
 	
 	private ComputerNode DFSVisit(ComputerNode start, int endID, int endTimestamp){
-		
-		start.setColor(1); // set color to grey
-		Iterator<ComputerNode> iterator = start.getOutNeighbors().iterator();
-		while(iterator.hasNext()) {
-			ComputerNode node = iterator.next();
-			if(node.getColor() == 0) { //checks if color is white
-				node.setPredeccesor(start);
-				if(node.getID() == endID && start.getTimestamp() <= endTimestamp) {
-					return node;
-				} else {
-					return DFSVisit(node, endID, endTimestamp);
-				}
-			}
-		}
-		
-		//setting color to black
-		start.setColor(2);
-		return null;
+	  	start.setColor(1); //Grey
+
+        // Recur for all the vertices adjacent to this vertex
+        Iterator<ComputerNode> i = start.getOutNeighbors().listIterator();
+        while (i.hasNext()) {
+            ComputerNode node = i.next();
+            if (node.getColor() == 0) { //isWhite
+                node.setPredeccesor(start);
+                if (node.getID() == endID && node.getTimestamp() <= endTimestamp) {
+                    return node;
+                } else {
+                    return DFSVisit(node, endID, endTimestamp);
+                }
+            }
+        }
+        
+        start.setColor(2); //black
+        return null;
 	}	
 }
