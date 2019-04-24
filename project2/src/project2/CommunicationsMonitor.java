@@ -51,57 +51,57 @@ public class CommunicationsMonitor {
     	
     	//---- adding first tuple into map ----
     	Tuple firstTuple = this.tuples.get(0);
-    	List<ComputerNode> list = new ArrayList<ComputerNode>();
-    	list.add(new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp()));
-    	map.put(firstTuple.getC1(), list);
-    	list = new ArrayList<ComputerNode>();
-    	list.add(new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp()));
-    	map.put(firstTuple.getC2(), list);
+    	ComputerNode c1 = new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp());
+    	ComputerNode c2 = new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp());
+    	c1.addNeighbor(c2);
+    	c2.addNeighbor(c1);
+    	addNode(c1);
+    	addNode(c2);
     	
     	//adding all tuples into map
     	for(int i = 1; i < this.tuples.size(); i++) {
     		
-    		Tuple curTuple = this.tuples.get(i);
-    		Tuple prevTuple = this.tuples.get(i-1);
-    		ComputerNode c1 = new ComputerNode(curTuple.getC1(), curTuple.getTimestamp());
-			ComputerNode c2 = new ComputerNode(curTuple.getC2(), curTuple.getTimestamp());
+    		c1 = new ComputerNode(this.tuples.get(i).getC1(), this.tuples.get(i).getTimestamp());
+			c2 = new ComputerNode(this.tuples.get(i).getC2(), this.tuples.get(i).getTimestamp());
     		
-    		int isDuplicate = isDuplicate(curTuple, prevTuple);
+    		int isDuplicate = isDuplicate(this.tuples.get(i), this.tuples.get(i-1));
 	
-			//if there are no duplicates
+			//no duplicate
     		if(isDuplicate == 0) {
-    			//add each node and its neighbors
-    			c1.addNeighbor(c2);
-    			c2.addNeighbor(c1);
     			addNode(c1);
     			addNode(c2);
-    		} else { //there was a duplicate
-    			//if the duplicate was c2, add c1
-    			if(isDuplicate == curTuple.getC2()) {
-    				addNode(c1);	
-    			} else {
-    				//if the duplicate was c1, add c2
+    		} else { //duplicate
+    			//if the duplicate was c2 -> add c1
+    			if(isDuplicate == this.tuples.get(i).getC2()) {
+    				addNode(c1);
+    			} else { //if the duplicate was c1 -> add c2
     				addNode(c2);
     			}
     		}
-    	}
+    	
+			c1.addNeighbor(c2);
+			c2.addNeighbor(c1);
+    	}	
     }
     
     /**
      * Adds this node into the map
-     * @param c
+     * @param cur
      */
-    public void addNode(ComputerNode c) {
+    public void addNode(ComputerNode cur) {
     	List<ComputerNode> list;
-    	if(this.map.get(c.getID()) == null) {
+    	if(this.map.get(cur.getID()) == null) {
 			list = new ArrayList<ComputerNode>();
-			list.add(c);
-			map.put(c.getID(), list);
+			list.add(cur);
 		} else {
-			list = this.map.get(c.getID());
-			list.add(c);
-			this.map.put(c.getID(), list);
+			list = this.map.get(cur.getID());
+			ComputerNode prev = this.map.get(cur.getID()).get(this.map.get(cur.getID()).size() - 1);
+			prev.addNeighbor(cur);
+			cur.addNeighbor(prev);
+			list.add(cur);
 		}	
+    	
+		this.map.put(cur.getID(), list);
     }
     
     /**
@@ -114,9 +114,9 @@ public class CommunicationsMonitor {
     public int isDuplicate(Tuple cur, Tuple prev) {
     	if(cur.getTimestamp() == prev.getTimestamp()) {	
     		if(cur.getC1() == prev.getC1()) {
-    			return cur.getC1();
+    			return prev.getC1();
     		} else if (cur.getC1() == prev.getC2()) {
-    			return cur.getC1();
+    			return prev.getC1();
     		} else if(cur.getC2() == prev.getC2()) {
     			return cur.getC2();
     		} else if(cur.getC2() == prev.getC1()) {

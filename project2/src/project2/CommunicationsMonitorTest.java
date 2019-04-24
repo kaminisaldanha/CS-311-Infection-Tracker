@@ -28,10 +28,26 @@ public class CommunicationsMonitorTest {
     	monitor = createExample1();
     	monitor.createGraph();
     	
+    	//list size check
     	assertEquals(2, monitor.getComputerMapping(1).size());
     	assertEquals(2, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(2, monitor.getComputerMapping(4).size());
+    	
+    	List<ComputerNode> neighbors = monitor.getComputerMapping(4).get(0).getOutNeighbors();
+    	for(ComputerNode neighbor: neighbors) {
+    		System.out.println("Neighbor ID: " +neighbor.getID()+ "Neighbor Timestamp: " +neighbor.getTimestamp());
+    	}
+    	
+    	//neighbors check
+    	assertEquals(1, monitor.getComputerMapping(1).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(1).get(1).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(1).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(3).get(0).getOutNeighbors().size());
+    	assertEquals(2, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());
+    	assertEquals(2, monitor.getComputerMapping(4).get(1).getOutNeighbors().size());
     }
     
     @Test
@@ -95,7 +111,7 @@ public class CommunicationsMonitorTest {
     }
     
     @Test
-    public void getComputerMappin1() {
+    public void getComputerMapping1() {
         monitor = createExample1();
         monitor.createGraph();
         assertEquals(4,monitor.getComputerMapping().size());
@@ -113,6 +129,16 @@ public class CommunicationsMonitorTest {
         // Test that mapping has been updated
         assertEquals(1, monitor.getComputerMapping(1).size());
         assertEquals(null, monitor.getComputerMapping(3));
+    }
+    
+    @Test
+    public void queryInfectionTest1() {
+    	monitor = createExample1();
+    	monitor.createGraph();
+    	
+    	List<ComputerNode> path = monitor.queryInfection(1, 2, 4, 8);
+    	assertNotEquals(null, path);
+    	
     }
     
     //--------------------------------------------------------------------------
