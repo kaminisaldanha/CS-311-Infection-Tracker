@@ -87,15 +87,6 @@ public class CommunicationsMonitorTest {
     	
     }
     
-    @Test
-    public void testCreateGraph5(){  //What is it suppose to print if the HashMap is empty
-//    	monitor = EmptyComputerNodeList();
-//    	monitor.createGraph();
-//    	System.out.println(monitor.getComputerMapping());
-//    	assertEquals(0, monitor.getComputerMapping());
-    	
-    }
-    
     //Test if the ArrayList gets sorted by its Timestamp
     @Test
     public void sortTest1() {
@@ -416,6 +407,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void getComputerMapping() {
         // Test that empty HashMap is initialized on object creation
+    	monitor = new CommunicationsMonitor();
         assertEquals(0, monitor.getComputerMapping().size());
 
         // Insert tuple and create graph
