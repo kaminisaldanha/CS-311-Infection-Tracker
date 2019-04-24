@@ -238,18 +238,33 @@ public class CommunicationsMonitorTest {
 		
 	}
     
+//	example4.addCommunication(1, 2, 4);
+//	example4.addCommunication(2, 3, 5);
+//	example4.addCommunication(3, 4, 7);
+    
     @Test
-    public void testQueryInfection() {
+    public void testQueryInfection1() {
     	
-    	monitor = createExample1();
+    	monitor = createExample4();
     	monitor.createGraph();
-    	List<ComputerNode> path = monitor.queryInfection(1, 2, 3, 8);
-    	path.size();
+    	List<ComputerNode> path = monitor.queryInfection(1, 4, 2, 7);
     	
+    	assertEquals(1, path.get(0).getID());
+    	assertEquals(4, path.get(0).getTimestamp());
+    	assertEquals(2, path.get(1).getID());
+    	assertEquals(4, path.get(1).getTimestamp());
+    	assertEquals(2, path.get(2).getID());
+    	assertEquals(5, path.get(2).getTimestamp());
+    	assertEquals(3, path.get(3).getID());
+    	assertEquals(5, path.get(3).getTimestamp());
+    	assertEquals(3, path.get(4).getID());
+    	assertEquals(7, path.get(4).getTimestamp());
+    	assertEquals(4, path.get(5).getID());
+    	assertEquals(7, path.get(5).getTimestamp());
     }
     
     @Test
-	public void testQueryInfectionExample1() {
+	public void testQueryInfectionExample2() {
 		cm.createGraph();
 		List<ComputerNode> path = cm.queryInfection(1, 3, 2, 9);
 		HashMap<Integer, List<ComputerNode>> adjList = cm.getComputerMapping();
@@ -604,6 +619,14 @@ public class CommunicationsMonitorTest {
         example3.addCommunication(1, 2, 14);
         example3.addCommunication(2, 4, 8);
         return example3;
+    }
+    
+    private CommunicationsMonitor createExample4() {
+    	CommunicationsMonitor example4 = new CommunicationsMonitor();
+    	example4.addCommunication(1, 2, 4);
+    	example4.addCommunication(2, 3, 5);
+    	example4.addCommunication(3, 4, 7);
+    	return example4;
     }
     
     /**

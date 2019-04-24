@@ -1,6 +1,7 @@
 package project2;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -132,7 +133,7 @@ public class CommunicationsMonitor {
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
     	
     	ComputerNode found = null;
-    	List<ComputerNode> path = null, start = this.map.get(c1);
+    	List<ComputerNode> start = this.map.get(c1);
     	for(ComputerNode node: start) {
     		if(node.getTimestamp() >= x) {
     			found = DFS(node, c2, y);
@@ -141,22 +142,50 @@ public class CommunicationsMonitor {
     	}
     	
     	if(found != null) {
-    		findPath(found, path);
+    		return findPath(found);
     	}
     	
-    	return path;	
+    	return null;	
     }
     
+//	example4.addCommunication(1, 2, 4);
+//	example4.addCommunication(2, 3, 5);
+//	example4.addCommunication(3, 4, 7);
+    
+	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
+		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
+		  	node.setColor(1); //node is visited (i.e. grey)
+		  	List<ComputerNode> neighbors = node.getOutNeighbors();
+		  	for(int i = 0; i < neighbors.size(); i++) {
+		  		ComputerNode next = neighbors.get(i);
+		  		if(next.getColor() == 0) { //isWhite
+		  			 next.setPredeccesor(node);
+		  			 if(next.getID() == ID && next.getTimestamp() <= timestamp) { //found the end node
+		  				 return next;
+		  			 } else {
+		  				 return DFS(next, ID, timestamp); // keep looking
+		  			 }
+		  		}
+		  	}
+		  	
+		  	node.setColor(2); //node is completed (i.e. set black)
+		}
+
+        return null;
+	}
+    
     //READ-ME: find the time complexity of it (think it is O(n))
-    public List<ComputerNode> findPath(ComputerNode node, List<ComputerNode> path){
+    public List<ComputerNode> findPath(ComputerNode node){
     	
-    	if(node == null) {
-    		return path;
+    	List<ComputerNode> path = new ArrayList<ComputerNode>();
+    	
+    	while(node != null) {
+    		path.add(node);
+    		node = node.getPredeccesor();
     	}
     	
-    	path.add(node);
-    	return findPath(node.getPredeccesor(), path);
-    	
+    	Collections.reverse(path);
+    	return path;
     }
 
     /**
@@ -258,45 +287,5 @@ public class CommunicationsMonitor {
     
     public ArrayList<Tuple> getTuples() {
     	return this.tuples;
-    }
-    
-//    private ComputerNode DFS(ComputerNode start, int endID, int endTimestamp) {
-//		Iterator<ComputerNode> iterator = start.getOutNeighbors().listIterator();
-//		
-//		while(iterator.hasNext()) {
-//			ComputerNode node = iterator.next();
-//			if(node.getColor() == 0) { //check if color is white
-//				ComputerNode temp = DFSVisit(start, endID, endTimestamp);
-//				if(temp != null) { //if path exists
-//					return temp;
-//				}
-//			}
-//			
-//		}
-//		
-//		return null;
-//	}
-   
-	
-	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
-		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
-		  	node.setColor(1); //node is visited (i.e. grey)
-		  	List<ComputerNode> neighbors = node.getOutNeighbors();
-		  	for(int i = 0; i < neighbors.size(); i++) {
-		  		ComputerNode next = neighbors.get(i);
-		  		if(next.getColor() == 0) { //isWhite
-		  			 next.setPredeccesor(node);
-		  			 if(next.getID() == ID && next.getTimestamp() <= timestamp) { //found the end node
-		  				 return next;
-		  			 } else {
-		  				 return DFS(next, ID, timestamp); // keep looking
-		  			 }
-		  		}
-		  	}
-		  	
-		  	node.setColor(2); //node is completed (i.e. set black)
-		}
-
-        return null;
-	}	
+    }	
 }
