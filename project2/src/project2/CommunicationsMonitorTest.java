@@ -42,7 +42,7 @@ public class CommunicationsMonitorTest {
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(2, monitor.getComputerMapping(4).size());	
     	
-    	//testing size of neighbors for each node
+    	//testing size of neighbors for each computer node
     	assertEquals(2, monitor.getComputerMapping(1).get(0).getOutNeighbors().size());
     	assertEquals(1, monitor.getComputerMapping(1).get(1).getOutNeighbors().size());
     	assertEquals(2, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
@@ -58,20 +58,45 @@ public class CommunicationsMonitorTest {
     	monitor = createExample2();
     	monitor.createGraph();
     	
+    	//testing size of lists for each computer
     	assertEquals(2, monitor.getComputerMapping(1).size());
     	assertEquals(2, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(1, monitor.getComputerMapping(4).size());
+    	
+    	//testing size of neighbors for each computer node
+    	assertEquals(2, monitor.getComputerMapping(1).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(1).get(1).getOutNeighbors().size());
+    	assertEquals(2, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(1).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(3).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());
+    	
     }
     
     @Test
     public void testCreateGraph3() {
+    	
+//        example3.addCommunication(2, 3, 8);
+//        example3.addCommunication(1, 2, 14);
+//        example3.addCommunication(2, 4, 8);
+    	
+    	
     	monitor = createExample3();
     	monitor.createGraph();
+    	
+    	//testing size of lists for each computer
     	assertEquals(1, monitor.getComputerMapping(1).size());
     	assertEquals(2, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(1, monitor.getComputerMapping(4).size());
+    	
+    	//testing size of neighbors for each computer node
+    	assertEquals(1, monitor.getComputerMapping(1).get(0).getOutNeighbors().size());
+    	assertEquals(3, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(1).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(3).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());
     }
     
     @Test

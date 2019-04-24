@@ -47,24 +47,15 @@ public class CommunicationsMonitor {
     	//sort the tuples by timestamp
     	this.mergeSort(this.tuples);
     	
-    	//---- adding first tuple into map ----
-//    	Tuple firstTuple = this.tuples.get(0);
-//    	ComputerNode c1 = new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp());
-//    	ComputerNode c2 = new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp());
-//    	c1.addNeighbor(c2);
-//    	c2.addNeighbor(c1);
-//    	addNode(c1);
-//    	addNode(c2);
-    	
     	//adding all tuples into map
     	for(int i = 0; i < this.tuples.size(); i++) {
     		
     		ComputerNode c1 = new ComputerNode(this.tuples.get(i).getC1(), this.tuples.get(i).getTimestamp());
 			ComputerNode c2 = new ComputerNode(this.tuples.get(i).getC2(), this.tuples.get(i).getTimestamp());
-    		
     		boolean c1IsDuplicate = isDuplicate(c1, c2);
     		boolean c2IsDuplicate = isDuplicate(c2, c1);
 	
+    		//if c1 & c2 are not duplicates -> add c1 and c2
     		if(c1IsDuplicate == false && c2IsDuplicate == false) {
     			c1.addNeighbor(c2);
     			c2.addNeighbor(c1);
@@ -109,7 +100,7 @@ public class CommunicationsMonitor {
      */
     public boolean isDuplicate(ComputerNode c1, ComputerNode c2) {
     	
-    	if(this.map.get(c1.getID()) != null  && this.map.get(c2.getID()) != null) {
+    	if(this.map.get(c1.getID()) != null) {
         	for(int i = 0; i < this.map.get(c1.getID()).size(); i++) {
         		if(c1.getTimestamp() == this.map.get(c1.getID()).get(i).getTimestamp()) {
         			this.map.get(c1.getID()).get(i).addNeighbor(c2);
