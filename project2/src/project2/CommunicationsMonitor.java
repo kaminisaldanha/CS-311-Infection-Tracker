@@ -131,26 +131,23 @@ public class CommunicationsMonitor {
      */
     public List<ComputerNode> queryInfection(int c1, int c2, int x, int y) {
     	
-    	if(y < x) { return null; }
-
-        ComputerNode node = null;
-        List<ComputerNode> start = map.get(c1), path = new ArrayList<ComputerNode>();
-        
-        for(int i = 0; i  < start.size(); i++) {
-        	if(start.get(i).getTimestamp() >= x) {
-        		node =  DFSVisit(start.get(i), c2, y);
-        		break;
-        	}
-        }
-        
-        if(node != null) {
-        	return findPath(node, path);
-        }  
-        
-        return null;
+    	ComputerNode found = null;
+    	List<ComputerNode> path = null, start = this.map.get(c1);
+    	for(ComputerNode node: start) {
+    		if(node.getTimestamp() >= x) {
+    			found = DFS(node, c2, y);
+    			break;
+    		}
+    	}
+    	
+    	if(found != null) {
+    		findPath(found, path);
+    	}
+    	
+    	return path;	
     }
     
-    //READ-ME: find the time complexity of it 
+    //READ-ME: find the time complexity of it (think it is O(n))
     public List<ComputerNode> findPath(ComputerNode node, List<ComputerNode> path){
     	
     	if(node == null) {
@@ -263,41 +260,44 @@ public class CommunicationsMonitor {
     	return this.tuples;
     }
     
-    private ComputerNode DFS(ComputerNode start, int endID, int endTimestamp) {
-		Iterator<ComputerNode> iterator = start.getOutNeighbors().listIterator();
-		
-		while(iterator.hasNext()) {
-			ComputerNode node = iterator.next();
-			if(node.getColor() == 0) { //check if color is white
-				ComputerNode temp = DFSVisit(start, endID, endTimestamp);
-				if(temp != null) { //if path exists
-					return temp;
-				}
-			}
-			
-		}
-		
-		return null;
-	}
+//    private ComputerNode DFS(ComputerNode start, int endID, int endTimestamp) {
+//		Iterator<ComputerNode> iterator = start.getOutNeighbors().listIterator();
+//		
+//		while(iterator.hasNext()) {
+//			ComputerNode node = iterator.next();
+//			if(node.getColor() == 0) { //check if color is white
+//				ComputerNode temp = DFSVisit(start, endID, endTimestamp);
+//				if(temp != null) { //if path exists
+//					return temp;
+//				}
+//			}
+//			
+//		}
+//		
+//		return null;
+//	}
+   
 	
-	private ComputerNode DFSVisit(ComputerNode start, int endID, int endTimestamp){
-	  	start.setColor(1); //Grey
+	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
+		if(node.getColor() == 0) {
+		  	node.setColor(1); //Grey
+	        // Recur for all the vertices adjacent to this vertex
+	        Iterator<ComputerNode> i = node.getOutNeighbors().listIterator();
+	        while (i.hasNext()) {
+	            ComputerNode next = i.next();
+	            if (next.getColor() == 0) { //isWhite
+	                next.setPredeccesor(node);
+	                if (next.getID() == ID && next.getTimestamp() <= timestamp) {
+	                    return next;
+	                } else {
+	                    return DFS(next, ID, timestamp);
+	                }
+	            }
+	        }
+	        
+	        node.setColor(2); //black
+		}
 
-        // Recur for all the vertices adjacent to this vertex
-        Iterator<ComputerNode> i = start.getOutNeighbors().listIterator();
-        while (i.hasNext()) {
-            ComputerNode node = i.next();
-            if (node.getColor() == 0) { //isWhite
-                node.setPredeccesor(start);
-                if (node.getID() == endID && node.getTimestamp() <= endTimestamp) {
-                    return node;
-                } else {
-                    return DFSVisit(node, endID, endTimestamp);
-                }
-            }
-        }
-        
-        start.setColor(2); //black
         return null;
 	}	
 }

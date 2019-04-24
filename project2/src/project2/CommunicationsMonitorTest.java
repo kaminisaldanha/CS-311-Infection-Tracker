@@ -239,6 +239,16 @@ public class CommunicationsMonitorTest {
 	}
     
     @Test
+    public void testQueryInfection() {
+    	
+    	monitor = createExample1();
+    	monitor.createGraph();
+    	List<ComputerNode> path = monitor.queryInfection(1, 2, 3, 8);
+    	path.size();
+    	
+    }
+    
+    @Test
 	public void testQueryInfectionExample1() {
 		cm.createGraph();
 		List<ComputerNode> path = cm.queryInfection(1, 3, 2, 9);
