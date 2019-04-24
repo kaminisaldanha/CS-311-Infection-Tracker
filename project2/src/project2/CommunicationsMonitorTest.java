@@ -269,15 +269,11 @@ public class CommunicationsMonitorTest {
 
 
         // Test that all computers are initialized in HashMap
-//        assertTrue(monitor.getComputerMapping(1) != null);
-//        assertTrue(monitor.getComputerMapping(2) != null);
-//        assertTrue(monitor.getComputerMapping(3) != null);
-//        assertTrue(monitor.getComputerMapping(4) != null);
-//        assertTrue(monitor.getComputerMapping(5) == null);
-        assertEquals(2, monitor.getComputerMapping(1).size());
-    	assertEquals(2, monitor.getComputerMapping(2).size());
-    	assertEquals(1, monitor.getComputerMapping(3).size());
-    	assertEquals(2, monitor.getComputerMapping(4).size());
+        assertTrue(monitor.getComputerMapping(1) != null);
+        assertTrue(monitor.getComputerMapping(2) != null);
+        assertTrue(monitor.getComputerMapping(3) != null);
+        assertTrue(monitor.getComputerMapping(4) != null);
+        assertTrue(monitor.getComputerMapping(5) == null);
 
         // Test C1 HashMap
         List<ComputerNode> c1Mapping = monitor.getComputerMapping(1);
@@ -407,6 +403,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void getComputerMapping() {
         // Test that empty HashMap is initialized on object creation
+
     	monitor = new CommunicationsMonitor();
         assertEquals(0, monitor.getComputerMapping().size());
 
