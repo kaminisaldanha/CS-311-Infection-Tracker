@@ -36,10 +36,20 @@ public class CommunicationsMonitorTest {
     	monitor = createExample1();
     	monitor.createGraph();
     	
+    	//testing size of lists for each computer
     	assertEquals(2, monitor.getComputerMapping(1).size());
     	assertEquals(2, monitor.getComputerMapping(2).size());
     	assertEquals(1, monitor.getComputerMapping(3).size());
     	assertEquals(2, monitor.getComputerMapping(4).size());	
+    	
+    	//testing size of neighbors for each node
+    	assertEquals(2, monitor.getComputerMapping(1).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(1).get(1).getOutNeighbors().size());
+    	assertEquals(2, monitor.getComputerMapping(2).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(2).get(1).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(3).get(0).getOutNeighbors().size());
+    	assertEquals(3, monitor.getComputerMapping(4).get(0).getOutNeighbors().size());
+    	assertEquals(1, monitor.getComputerMapping(4).get(1).getOutNeighbors().size());
     	
     }
     
@@ -135,6 +145,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void getComputerMapping2() {
         // Invalid key value should return null list
+    	monitor = new CommunicationsMonitor();
         assertEquals(null, monitor.getComputerMapping(1));
 
         // Insert tuple and create graph
@@ -418,6 +429,7 @@ public class CommunicationsMonitorTest {
     @Test
     public void getComputerMapping3() {
         // Invalid key value should return null list
+    	monitor = new CommunicationsMonitor();
         assertEquals(null, monitor.getComputerMapping(1));
 
         // Insert tuple and create graph

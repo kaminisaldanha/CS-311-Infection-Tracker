@@ -94,7 +94,6 @@ public class CommunicationsMonitor {
 			list = this.map.get(cur.getID());
 			ComputerNode prev = this.map.get(cur.getID()).get(this.map.get(cur.getID()).size() - 1);
 			prev.addNeighbor(cur);
-			cur.addNeighbor(prev);
 			list.add(cur);
 		}	
     	
