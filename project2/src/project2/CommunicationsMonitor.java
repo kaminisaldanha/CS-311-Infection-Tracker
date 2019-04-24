@@ -50,37 +50,36 @@ public class CommunicationsMonitor {
     	this.mergeSort(this.tuples);
     	
     	//---- adding first tuple into map ----
-    	Tuple firstTuple = this.tuples.get(0);
-    	ComputerNode c1 = new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp());
-    	ComputerNode c2 = new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp());
-    	c1.addNeighbor(c2);
-    	c2.addNeighbor(c1);
-    	addNode(c1);
-    	addNode(c2);
+//    	Tuple firstTuple = this.tuples.get(0);
+//    	ComputerNode c1 = new ComputerNode(firstTuple.getC1(), firstTuple.getTimestamp());
+//    	ComputerNode c2 = new ComputerNode(firstTuple.getC2(), firstTuple.getTimestamp());
+//    	c1.addNeighbor(c2);
+//    	c2.addNeighbor(c1);
+//    	addNode(c1);
+//    	addNode(c2);
     	
     	//adding all tuples into map
-    	for(int i = 1; i < this.tuples.size(); i++) {
+    	for(int i = 0; i < this.tuples.size(); i++) {
     		
-    		c1 = new ComputerNode(this.tuples.get(i).getC1(), this.tuples.get(i).getTimestamp());
-			c2 = new ComputerNode(this.tuples.get(i).getC2(), this.tuples.get(i).getTimestamp());
+    		ComputerNode c1 = new ComputerNode(this.tuples.get(i).getC1(), this.tuples.get(i).getTimestamp());
+			ComputerNode c2 = new ComputerNode(this.tuples.get(i).getC2(), this.tuples.get(i).getTimestamp());
     		
-    		int isDuplicate = isDuplicate(this.tuples.get(i), this.tuples.get(i-1));
+    		boolean c1IsDuplicate = isDuplicate(c1, c2);
+    		boolean c2IsDuplicate = isDuplicate(c2, c1);
 	
-			//no duplicate
-    		if(isDuplicate == 0) {
+    		if(c1IsDuplicate == false && c2IsDuplicate == false) {
+    			c1.addNeighbor(c2);
+    			c2.addNeighbor(c1);
     			addNode(c1);
     			addNode(c2);
-    		} else { //duplicate
+    		} else { 
     			//if the duplicate was c2 -> add c1
-    			if(isDuplicate == this.tuples.get(i).getC2()) {
-    				addNode(c1);
-    			} else { //if the duplicate was c1 -> add c2
+    			if(c1IsDuplicate == true) {
     				addNode(c2);
+    			} else { //if the duplicate was c1 -> add c2
+    				addNode(c1);
     			}
     		}
-    	
-			c1.addNeighbor(c2);
-			c2.addNeighbor(c1);
     	}	
     }
     
@@ -111,21 +110,21 @@ public class CommunicationsMonitor {
      * @param prev
      * @return a list of all duplicate computer node ID's
      */
-    public int isDuplicate(Tuple cur, Tuple prev) {
-    	if(cur.getTimestamp() == prev.getTimestamp()) {	
-    		if(cur.getC1() == prev.getC1()) {
-    			return prev.getC1();
-    		} else if (cur.getC1() == prev.getC2()) {
-    			return prev.getC1();
-    		} else if(cur.getC2() == prev.getC2()) {
-    			return cur.getC2();
-    		} else if(cur.getC2() == prev.getC1()) {
-    			return cur.getC2();
-    		}
-    	} 
+    public boolean isDuplicate(ComputerNode c1, ComputerNode c2) {
     	
-    	return 0;	
+    	if(this.map.get(c1.getID()) != null  && this.map.get(c2.getID()) != null) {
+        	for(int i = 0; i < this.map.get(c1.getID()).size(); i++) {
+        		if(c1.getTimestamp() == this.map.get(c1.getID()).get(i).getTimestamp()) {
+        			this.map.get(c1.getID()).get(i).addNeighbor(c2);
+        			c2.addNeighbor(c1);
+        			return true;
+        		}
+        	}
+    	}
+    	
+    	return false;
     }
+
     
     /**
      * Determines whether computer c2 could be infected by time y if computer c1 was infected at time x. If so, the
@@ -202,6 +201,11 @@ public class CommunicationsMonitor {
      * @return ComputerNode objects associated with c.
      */
     public List<ComputerNode> getComputerMapping(int c) {
+    	
+    	if(this.map.get(c) == null) {
+    		return null;
+    	}
+    	
     	return this.map.get(c);
     }
     
