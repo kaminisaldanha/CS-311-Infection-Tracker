@@ -214,7 +214,7 @@ public class CommunicationsMonitor {
 	  	return null;
 	}
     
-	 /*
+   /**
 	 * Find the path of the node. It keeps looking for its predecessors and adds them to a list.
 	 * @param node the node you want to find the path for
 	 * @return a list of all the predecessors of a node
@@ -263,10 +263,10 @@ public class CommunicationsMonitor {
     }
     
     /**
-     * 
-     * @param arrayList
-     * @param rightArray
-     * @param leftArray
+     * Method to help merge the left and right ArrayLists once they get sorted
+     * @param arrayList - whole ArrayList of Tuples
+     * @param rightArray - right half of the arrayList
+     * @param leftArray - right half of the arrayList
      */
     public void merge(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
     	int rightIndex = 0;
@@ -305,9 +305,9 @@ public class CommunicationsMonitor {
     }
     
     /**
-     * 
-     * @param arrayList
-     * @return
+     * Merge sort algorithm to sort the triples in order of nondecreasing timestamp 
+     * @param arrayList - arrayList of Tuples to sort
+     * @return - an arrayList of sorted Tuples
      */
     public ArrayList<Tuple> mergeSort(ArrayList<Tuple> arrayList){
     	
