@@ -25,7 +25,7 @@ public class ComputerNode {
 	}
 	
 	/**
-	 * 
+	 * Get's the color of the node during DFS
 	 * @return
 	 */
 	public int getColor() {
@@ -33,7 +33,7 @@ public class ComputerNode {
 	}
 	
 	/**
-	 * 
+	 * Sets the color of the node during DFS
 	 * @param color
 	 */
 	public void setColor(int color) {
