@@ -225,16 +225,13 @@ public class CommunicationsMonitor {
 	  	return null;
 	}
     
-	/**
-<<<<<<< HEAD
+	 /*
 	 * Find the path of the node. It keeps looking for its predecessors and adds them to a list.
 	 * @param node the node you want to find the path for
 	 * @return a list of all the predecessors of a node
-=======
 	 * 
 	 * @param node
 	 * @return
->>>>>>> 823510d2f3a992693a49e6cd18dc560a14baf247
 	 */
     public List<ComputerNode> findPath(ComputerNode node){
     	
