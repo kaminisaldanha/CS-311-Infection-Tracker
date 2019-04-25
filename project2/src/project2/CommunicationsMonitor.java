@@ -151,6 +151,13 @@ public class CommunicationsMonitor {
     	return null;	
     }
     
+    /**
+     * 
+     * @param node
+     * @param ID
+     * @param timestamp
+     * @return
+     */
     private ComputerNode DFS(ComputerNode node, int ID, int timestamp) {
     	
     	for(Integer computer: this.map.keySet()) {
@@ -160,17 +167,22 @@ public class CommunicationsMonitor {
     			cnode.setPredeccesor(null);
     		}
     	}
-    	
     	if(node.getColor() == 0) {
     		ComputerNode found = DFSVisit(node, ID, timestamp);
     		if(found != null) {
     			return found;
     		}
     	}
-    	
     	return null;
     }
     
+    /**
+     * 
+     * @param node
+     * @param ID
+     * @param timestamp
+     * @return
+     */
 	private ComputerNode DFSVisit(ComputerNode node, int ID, int timestamp){
 		node.setColor(1); //node is visited (i.e. grey)
 	  	List<ComputerNode> neighbors = node.getOutNeighbors();
@@ -189,11 +201,15 @@ public class CommunicationsMonitor {
 	  			 }
 	  		}
 	  	}
-	  	
 	  	node.setColor(2); //node is completed (i.e. set black)
 	  	return null;
 	}
     
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 */
     public List<ComputerNode> findPath(ComputerNode node){
     	
     	List<ComputerNode> path = new ArrayList<ComputerNode>();
@@ -234,6 +250,12 @@ public class CommunicationsMonitor {
     	return this.map.get(c);
     }
     
+    /**
+     * 
+     * @param arrayList
+     * @param rightArray
+     * @param leftArray
+     */
     public void merge(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
     	int rightIndex = 0;
     	int leftIndex = 0;
@@ -270,6 +292,11 @@ public class CommunicationsMonitor {
 
     }
     
+    /**
+     * 
+     * @param arrayList
+     * @return
+     */
     public ArrayList<Tuple> mergeSort(ArrayList<Tuple> arrayList){
     	
     	ArrayList<Tuple> leftArray = new ArrayList<Tuple>();
@@ -303,7 +330,10 @@ public class CommunicationsMonitor {
     	return arrayList;
     }
  
-    
+    /**
+     * 
+     * @return
+     */
     public ArrayList<Tuple> getTuples() {
     	return this.tuples;
     }	
