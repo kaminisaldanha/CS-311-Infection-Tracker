@@ -24,10 +24,18 @@ public class ComputerNode {
 		this.timestamp = timestamp;
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public int getColor() {
 		return this.color;
 	}
 	
+	/**
+	 * 
+	 * @param color
+	 */
 	public void setColor(int color) {
 		this.color = color;
 	}
@@ -41,6 +49,10 @@ public class ComputerNode {
         return this.ID;
     }
     
+    /**
+     * 
+     * @param ID
+     */
     public void setID(int ID) {
     	this.ID = ID;
     }
@@ -54,10 +66,18 @@ public class ComputerNode {
         return this.timestamp;
     }
     
+    /**
+     * 
+     * @param timestamp
+     */
     public void setTimestamp(int timestamp) {
     	this.timestamp = timestamp;
     }
     
+    /**
+     * 
+     * @param neighbor
+     */
     public void addNeighbor(ComputerNode neighbor) {
     	this.neighbors.add(neighbor);
     }
@@ -71,10 +91,18 @@ public class ComputerNode {
         return this.neighbors;
     }
     
+    /**
+     * Returns a the predeccesor of the node
+     * @return
+     */
     public ComputerNode getPredeccesor() {
     	return this.predeccesor;
     }
     
+    /**
+     * Set the predeccesor of the node
+     * @param node
+     */
     public void setPredeccesor(ComputerNode node) {
     	this.predeccesor = node;
     }
