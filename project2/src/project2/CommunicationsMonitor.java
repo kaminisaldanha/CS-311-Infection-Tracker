@@ -158,20 +158,12 @@ public class CommunicationsMonitor {
     }
     
     /**
-<<<<<<< HEAD
      * Performs DFS to search for a computer node with a specific ID and timestamp. It first makes every nodes color black. 
      * It then calls DFSVisit on node if its color is black. If a node was found with the ID and timestamp, it returns it.  
      * @param node is the node we are currently at
      * @param ID is the ID of the node we are looking for
      * @param timestamp is the timestamp of the node we are looking for
      * @return the node we find if there is a path to it
-=======
-     * 
-     * @param node
-     * @param ID
-     * @param timestamp
-     * @return
->>>>>>> 823510d2f3a992693a49e6cd18dc560a14baf247
      */
     private ComputerNode DFS(ComputerNode node, int ID, int timestamp) {
     	
@@ -192,12 +184,9 @@ public class CommunicationsMonitor {
     }
     
     /**
-<<<<<<< HEAD
      * Performs DFSVisit to search for a computer node with a specific ID and timestamp. It calls DFSVisit on all of its neighbors
      * until it finds the node with the ID and timestamp of the node you are looking for.
-=======
      * 
->>>>>>> 823510d2f3a992693a49e6cd18dc560a14baf247
      * @param node
      * @param ID
      * @param timestamp
@@ -231,7 +220,7 @@ public class CommunicationsMonitor {
 	 * @return a list of all the predecessors of a node
 	 * 
 	 * @param node
-	 * @return
+	 * @return the path of the nodes from the start node to this node in the graph
 	 */
     public List<ComputerNode> findPath(ComputerNode node){
     	
@@ -354,14 +343,9 @@ public class CommunicationsMonitor {
     }
  
     /**
-<<<<<<< HEAD
      * Returns all of the tuples that were added in
      * @return an array list of all tuples 
-=======
-     * 
-     * @return
->>>>>>> 823510d2f3a992693a49e6cd18dc560a14baf247
-     */
+	*/
     public ArrayList<Tuple> getTuples() {
     	return this.tuples;
     }	
