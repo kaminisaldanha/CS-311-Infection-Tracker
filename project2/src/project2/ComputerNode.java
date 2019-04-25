@@ -92,7 +92,7 @@ public class ComputerNode {
     }
     
     /**
-     * 
+     * Returns a the predeccesor of the node
      * @return
      */
     public ComputerNode getPredeccesor() {
@@ -100,7 +100,7 @@ public class ComputerNode {
     }
     
     /**
-     * 
+     * Set the predeccesor of the node
      * @param node
      */
     public void setPredeccesor(ComputerNode node) {
