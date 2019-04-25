@@ -269,6 +269,19 @@ public class CommunicationsMonitorTest {
 		List<ComputerNode> path = monitor.queryInfection(1, 3, 2, 9);
 		assertEquals(null, path);
 	}
+   
+//    example3.addCommunication(2, 3, 8);
+//    example3.addCommunication(1, 2, 14);
+//    example3.addCommunication(2, 4, 8);
+    
+    @Test
+    public void testQueryInfectionExample3() {
+    	monitor = createExample3();
+    	monitor.createGraph();
+    	
+    	List<ComputerNode> path = monitor.queryInfection(1, 3, 2, 7);
+    	assertEquals(null, path);
+    }
 
     @Test
     public void testQueryInfectionExample4() {
@@ -292,14 +305,6 @@ public class CommunicationsMonitorTest {
     	assertEquals(7, path.get(5).getTimestamp());
     }
 
-    @Test
-	public void testQueryInfectionNoNode() {
-		cm.createGraph();
-		List<ComputerNode> path = cm.queryInfection(1, 3, 2, 9);
-		
-		path = cm.queryInfection(10, 4, 0, 10);
-		assertEquals(null, path);
-	}
 	
 	@Test
 	public void testQueryInfectionNoPath() {
@@ -464,69 +469,68 @@ public class CommunicationsMonitorTest {
 
     
     @Test
- 	public void testCaseOne() {
-     monitor = new CommunicationsMonitor();
-	 monitor.addCommunication(1, 2, 5);
-	 monitor.addCommunication(1, 3, 6);
-	 monitor.addCommunication(1, 4, 7);
-	 monitor.addCommunication(3, 4, 8);
-	 monitor.addCommunication(2, 3, 10);
-	
-     monitor.createGraph();
-	 //List<ComputerNode> infectionPath = monitor.queryInfection(1, 2, 5, 5);
-//	 assertEquals(1, infectionPath.get(0).getID());
-//	 assertEquals(5, infectionPath.get(0).getTimestamp());
-//	 assertEquals(2, infectionPath.get(1).getID());
-//	 assertEquals(5, infectionPath.get(1).getTimestamp());
-//	 assertEquals(2, infectionPath.size());
-//	 
-//	 infectionPath = monitor.queryInfection(1, 3, 6, 6);
-//	 assertEquals(1, infectionPath.get(0).getID());
-//	 assertEquals(6, infectionPath.get(0).getTimestamp());
-//	 assertEquals(3, infectionPath.get(1).getID());
-//	 assertEquals(6, infectionPath.get(1).getTimestamp());
-//	 assertEquals(2, infectionPath.size());
-	 
-     List<ComputerNode> infectionPath = monitor.queryInfection(1, 4, 5, 7);
-	 assertEquals(1, infectionPath.get(0).getID());
-	 assertEquals(5, infectionPath.get(0).getTimestamp());
-	 assertEquals(1, infectionPath.get(1).getID());
-	 assertEquals(6, infectionPath.get(1).getTimestamp());
-	 assertEquals(1, infectionPath.get(2).getID());
-	 assertEquals(7, infectionPath.get(2).getTimestamp());
-	 assertEquals(4, infectionPath.get(3).getID());
-	 assertEquals(7, infectionPath.get(3).getTimestamp());
-	 assertEquals(4, infectionPath.size());
-	 
-	 infectionPath = monitor.queryInfection(1, 4, 6, 8);
-	 assertEquals(1, infectionPath.get(0).getID());
-	 assertEquals(6, infectionPath.get(0).getTimestamp());
-	 assertEquals(3, infectionPath.get(1).getID());
-	 assertEquals(6, infectionPath.get(1).getTimestamp());
-	 assertEquals(3, infectionPath.get(2).getID());
-	 assertEquals(8, infectionPath.get(2).getTimestamp());
-	 assertEquals(4, infectionPath.get(3).getID());
-	 assertEquals(8, infectionPath.get(3).getTimestamp());
-	 assertEquals(4, infectionPath.size());
-	 
-	 infectionPath = monitor.queryInfection(1, 2, 6, 10);
-	 assertEquals(1, infectionPath.get(0).getID());
-	 assertEquals(6, infectionPath.get(0).getTimestamp());
-	 assertEquals(3, infectionPath.get(1).getID());
-	 assertEquals(6, infectionPath.get(1).getTimestamp());
-	 assertEquals(3, infectionPath.get(2).getID());
-	 assertEquals(8, infectionPath.get(2).getTimestamp());
-	 assertEquals(3, infectionPath.get(3).getID());
-	 assertEquals(10, infectionPath.get(3).getTimestamp());
-	 assertEquals(2, infectionPath.get(4).getID());
-	 assertEquals(10, infectionPath.get(4).getTimestamp());
-	 assertEquals(5, infectionPath.size());
-	 
-	 
- }
+    public void testCaseOne() {
+    	monitor = new CommunicationsMonitor();
+        monitor.addCommunication(1, 2, 5);
+        monitor.addCommunication(1, 3, 6);
+        monitor.addCommunication(1, 4, 7);
+        monitor.addCommunication(3, 4, 8);
+        monitor.addCommunication(2, 3, 10);
+
+        monitor.createGraph();
+        List<ComputerNode> infectionPath = monitor.queryInfection(1, 2, 5, 5);
+        assertEquals(1, infectionPath.get(0).getID());
+        assertEquals(5, infectionPath.get(0).getTimestamp());
+        assertEquals(2, infectionPath.get(1).getID());
+        assertEquals(5, infectionPath.get(1).getTimestamp());
+        assertEquals(2, infectionPath.size());
+
+        infectionPath = monitor.queryInfection(1, 3, 6, 6);
+        assertEquals(1, infectionPath.get(0).getID());
+        assertEquals(6, infectionPath.get(0).getTimestamp());
+        assertEquals(3, infectionPath.get(1).getID());
+        assertEquals(6, infectionPath.get(1).getTimestamp());
+        assertEquals(2, infectionPath.size());
+
+        infectionPath = monitor.queryInfection(1, 4, 5, 7);
+        assertEquals(1, infectionPath.get(0).getID());
+        assertEquals(5, infectionPath.get(0).getTimestamp());
+        assertEquals(1, infectionPath.get(1).getID());
+        assertEquals(6, infectionPath.get(1).getTimestamp());
+        assertEquals(1, infectionPath.get(2).getID());
+        assertEquals(7, infectionPath.get(2).getTimestamp());
+        assertEquals(4, infectionPath.get(3).getID());
+        assertEquals(7, infectionPath.get(3).getTimestamp());
+        assertEquals(4, infectionPath.size());
+
+        infectionPath = monitor.queryInfection(1, 4, 6, 8);
+        assertEquals(1, infectionPath.get(0).getID());
+        assertEquals(6, infectionPath.get(0).getTimestamp());
+        assertEquals(3, infectionPath.get(1).getID());
+        assertEquals(6, infectionPath.get(1).getTimestamp());
+        assertEquals(3, infectionPath.get(2).getID());
+        assertEquals(8, infectionPath.get(2).getTimestamp());
+        assertEquals(4, infectionPath.get(3).getID());
+        assertEquals(8, infectionPath.get(3).getTimestamp());
+        assertEquals(4, infectionPath.size());
+
+        infectionPath = monitor.queryInfection(1, 2, 6, 10);
+        assertEquals(1, infectionPath.get(0).getID());
+        assertEquals(6, infectionPath.get(0).getTimestamp());
+        assertEquals(3, infectionPath.get(1).getID());
+        assertEquals(6, infectionPath.get(1).getTimestamp());
+        assertEquals(3, infectionPath.get(2).getID());
+        assertEquals(8, infectionPath.get(2).getTimestamp());
+        assertEquals(3, infectionPath.get(3).getID());
+        assertEquals(10, infectionPath.get(3).getTimestamp());
+        assertEquals(2, infectionPath.get(4).getID());
+        assertEquals(10, infectionPath.get(4).getTimestamp());
+        assertEquals(5, infectionPath.size());
+    }
  	
 	@Test
  	public void testCaseTwo() {
+	 monitor = new CommunicationsMonitor();
 	 monitor.addCommunication(1, 2, 1);
 	 monitor.addCommunication(2, 3, 2);
 	 monitor.addCommunication(11, 2, 1);

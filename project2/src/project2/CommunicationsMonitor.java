@@ -151,26 +151,47 @@ public class CommunicationsMonitor {
     	return null;	
     }
     
-	private ComputerNode DFS(ComputerNode node, int ID, int timestamp){
-		if(node.getColor() == 0) { // check if node is unvisited (i.e. white)
-		  	node.setColor(1); //node is visited (i.e. grey)
-		  	List<ComputerNode> neighbors = node.getOutNeighbors();
-		  	for(int i = 0; i < neighbors.size(); i++) {
-		  		ComputerNode next = neighbors.get(i);
-		  		if(next.getColor() == 0) { //isWhite
-		  			 next.setPredeccesor(node);
-		  			 if(next.getID() == ID && next.getTimestamp() <= timestamp) { //found the end node
-		  				 return next;
-		  			 } else {
-		  				 return DFS(next, ID, timestamp); // keep looking
-		  			 }
-		  		}
-		  	}
-		  	
-		  	node.setColor(2); //node is completed (i.e. set black)
-		}
-
-        return null;
+    private ComputerNode DFS(ComputerNode node, int ID, int timestamp) {
+    	
+    	for(Integer computer: this.map.keySet()) {
+    		List<ComputerNode> clist = this.map.get(computer);
+    		for(ComputerNode cnode: clist) {
+    			cnode.setColor(0);
+    			cnode.setPredeccesor(null);
+    		}
+    	}
+    	
+    	if(node.getColor() == 0) {
+    		ComputerNode found = DFSVisit(node, ID, timestamp);
+    		if(found != null) {
+    			return found;
+    		}
+    	}
+    	
+    	return null;
+    }
+    
+	private ComputerNode DFSVisit(ComputerNode node, int ID, int timestamp){
+		node.setColor(1); //node is visited (i.e. grey)
+	  	List<ComputerNode> neighbors = node.getOutNeighbors();
+	  	for(int i = 0; i < neighbors.size(); i++) {
+	  		ComputerNode next = neighbors.get(i);
+	  		if(next.getColor() == 0) { //isWhite
+	  			 next.setPredeccesor(node);
+	  			 
+	  			 if(next.getID() == ID && next.getTimestamp() <= timestamp) { //found the end node
+	  				 return next;
+	  			 } else {
+	  				 ComputerNode result = DFSVisit(next, ID, timestamp); // keep looking
+	  				 if(result != null) {
+	  					 return result;
+	  				 }
+	  			 }
+	  		}
+	  	}
+	  	
+	  	node.setColor(2); //node is completed (i.e. set black)
+	  	return null;
 	}
     
     public List<ComputerNode> findPath(ComputerNode node){
