@@ -16,11 +16,17 @@ import java.util.List;
  */
 public class CommunicationsMonitor {
 
+	/**
+	 * Array list of all the tuples that have been added
+	 */
 	private ArrayList<Tuple> tuples; 
+	/**
+	 * The adjacency list that represents this graph
+	 */
 	private HashMap<Integer, List<ComputerNode>> map;
 	
     /**
-     * Constructor with no parameters
+     * Constructor with no parameters. It intializes the tuples and the map.
      */
     public CommunicationsMonitor() {
     	tuples = new ArrayList<Tuple>();
@@ -151,6 +157,14 @@ public class CommunicationsMonitor {
     	return null;	
     }
     
+    /**
+     * Performs DFS to search for a computer node with a specific ID and timestamp. It first makes every nodes color black. 
+     * It then calls DFSVisit on node if its color is black. If a node was found with the ID and timestamp, it returns it.  
+     * @param node is the node we are currently at
+     * @param ID is the ID of the node we are looking for
+     * @param timestamp is the timestamp of the node we are looking for
+     * @return the node we find if there is a path to it
+     */
     private ComputerNode DFS(ComputerNode node, int ID, int timestamp) {
     	
     	for(Integer computer: this.map.keySet()) {
@@ -171,6 +185,14 @@ public class CommunicationsMonitor {
     	return null;
     }
     
+    /**
+     * Performs DFSVisit to search for a computer node with a specific ID and timestamp. It calls DFSVisit on all of its neighbors
+     * until it finds the node with the ID and timestamp of the node you are looking for.
+     * @param node
+     * @param ID
+     * @param timestamp
+     * @return
+     */
 	private ComputerNode DFSVisit(ComputerNode node, int ID, int timestamp){
 		node.setColor(1); //node is visited (i.e. grey)
 	  	List<ComputerNode> neighbors = node.getOutNeighbors();
@@ -194,6 +216,11 @@ public class CommunicationsMonitor {
 	  	return null;
 	}
     
+	/**
+	 * Find the path of the node. It keeps looking for its predecessors and adds them to a list.
+	 * @param node the node you want to find the path for
+	 * @return a list of all the predecessors of a node
+	 */
     public List<ComputerNode> findPath(ComputerNode node){
     	
     	List<ComputerNode> path = new ArrayList<ComputerNode>();
@@ -233,6 +260,7 @@ public class CommunicationsMonitor {
     	
     	return this.map.get(c);
     }
+    
     
     public void merge(ArrayList<Tuple> arrayList, ArrayList<Tuple> rightArray, ArrayList<Tuple> leftArray) {
     	int rightIndex = 0;
@@ -303,7 +331,10 @@ public class CommunicationsMonitor {
     	return arrayList;
     }
  
-    
+    /**
+     * Returns all of the tuples that were added in
+     * @return an array list of all tuples 
+     */
     public ArrayList<Tuple> getTuples() {
     	return this.tuples;
     }	
